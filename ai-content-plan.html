@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Plan – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 1.25rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        .page-hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--purple);
+            padding: .3rem .9rem;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: .4rem;
+        }
+
+        .page-hero p {
+            color: var(--gray);
+            font-size: .9rem;
+        }
+
+        /* ── LAYOUT ── */
+        .layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media(max-width:860px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── FORM ── */
+        .form-panel {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            position: sticky;
+            top: 90px;
+        }
+
+        .panel-title {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            padding-bottom: .6rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .form-row {
+            margin-bottom: .85rem;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: .3rem;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: .65rem .9rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: .88rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .35rem;
+        }
+
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg);
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            padding: .3rem .65rem;
+            transition: .15s;
+        }
+
+        .check-label input {
+            display: none;
+        }
+
+        .check-label.checked {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: .9rem;
+            margin-top: .5rem;
+            background: linear-gradient(135deg, var(--purple), #6d28d9);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-generate:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── RESULT AREA ── */
+        .result-area {
+            min-height: 300px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .empty-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            color: var(--navy);
+        }
+
+        .empty-state p {
+            font-size: .85rem;
+        }
+
+        /* ── LOADING ── */
+        .loading-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            text-align: center;
+            display: none;
+        }
+
+        .loading-card.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--light);
+            border-top-color: var(--purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: .9rem;
+            color: var(--gray);
+        }
+
+        .loading-steps {
+            margin-top: 1rem;
+            font-size: .8rem;
+        }
+
+        .loading-steps span {
+            display: block;
+            color: var(--gray);
+            padding: .2rem 0;
+        }
+
+        .loading-steps span.done {
+            color: var(--green);
+        }
+
+        .loading-steps span.active {
+            color: var(--purple);
+            font-weight: 700;
+        }
+
+        /* ── PLAN OUTPUT ── */
+        .plan-output {
+            display: none;
+            animation: fadeIn .5s ease;
+        }
+
+        .plan-output.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .plan-header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            border-radius: 20px 20px 0 0;
+            padding: 1.5rem 2rem;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .plan-header h2 {
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .plan-header p {
+            font-size: .8rem;
+            opacity: .7;
+            margin-top: .2rem;
+        }
+
+        .plan-actions {
+            display: flex;
+            gap: .5rem;
+        }
+
+        .btn-export,
+        .btn-copy-all {
+            padding: .45rem 1rem;
+            border-radius: 8px;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            transition: .2s;
+        }
+
+        .btn-export {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-copy-all {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .overview-box {
+            background: var(--white);
+            border-left: 4px solid var(--purple);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            font-size: .88rem;
+            line-height: 1.7;
+        }
+
+        .overview-box h3 {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--purple);
+            margin-bottom: .5rem;
+        }
+
+        .themes-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: .5rem;
+            background: var(--bg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        @media(max-width:600px) {
+            .themes-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .theme-chip {
+            background: var(--white);
+            border-radius: 10px;
+            padding: .65rem .85rem;
+            font-size: .78rem;
+        }
+
+        .theme-chip .week {
+            font-size: .65rem;
+            color: var(--orange);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: .2rem;
+        }
+
+        .theme-chip .title {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* ── CALENDAR ── */
+        .calendar-wrap {
+            background: var(--white);
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+        }
+
+        .calendar-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .75rem 1.25rem;
+            border-bottom: 1px solid var(--light);
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: .3rem;
+        }
+
+        .view-btn {
+            padding: .3rem .7rem;
+            border-radius: 7px;
+            border: 2px solid var(--light);
+            font-size: .75rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            background: var(--bg);
+            color: var(--gray);
+            transition: .15s;
+        }
+
+        .view-btn.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
+        }
+
+        .posts-filter {
+            display: flex;
+            gap: .3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: .25rem .65rem;
+            border-radius: 20px;
+            font-size: .72rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid var(--light);
+            background: var(--bg);
+            color: var(--gray);
+            transition: .15s;
+        }
+
+        .filter-chip.on {
+            background: var(--purple);
+            color: #fff;
+            border-color: var(--purple);
+        }
+
+        /* LIST VIEW */
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-item {
+            display: flex;
+            gap: 1rem;
+            padding: .85rem 1.25rem;
+            border-bottom: 1px solid var(--bg);
+            transition: .15s;
+            align-items: flex-start;
+        }
+
+        .post-item:hover {
+            background: rgba(139, 92, 246, 0.04);
+        }
+
+        .post-date {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .post-channel {
+            padding: .15rem .5rem;
+            border-radius: 6px;
+            font-size: .65rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .ch-fb {
+            background: #1877f2;
+            color: #fff;
+        }
+
+        .ch-ig {
+            background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366);
+            color: #fff;
+        }
+
+        .ch-tik {
+            background: #000;
+            color: #fff;
+        }
+
+        .ch-gg {
+            background: #4285f4;
+            color: #fff;
+        }
+
+        .ch-other {
+            background: var(--gray);
+            color: #fff;
+        }
+
+        .post-body {
+            flex: 1;
+        }
+
+        .post-title {
+            font-size: .88rem;
+            font-weight: 700;
+            margin-bottom: .2rem;
+        }
+
+        .post-caption {
+            font-size: .8rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .post-hashtags {
+            font-size: .72rem;
+            color: var(--purple);
+            margin-top: .2rem;
+        }
+
+        .post-type {
+            font-size: .65rem;
+            background: var(--bg);
+            border-radius: 5px;
+            padding: .1rem .4rem;
+            color: var(--gray);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .post-item .copy-btn-sm {
+            background: none;
+            border: none;
+            font-size: .75rem;
+            cursor: pointer;
+            color: var(--gray);
+            flex-shrink: 0;
+            padding: .2rem;
+            opacity: 0;
+            transition: .15s;
+        }
+
+        .post-item:hover .copy-btn-sm {
+            opacity: 1;
+        }
+
+        .post-item .copy-btn-sm:hover {
+            color: var(--purple);
+        }
+
+        /* GRID VIEW */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: .75rem;
+            padding: 1rem;
+        }
+
+        .post-grid-item {
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: .2s;
+            cursor: default;
+        }
+
+        .post-grid-item:hover {
+            border-color: var(--purple);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+
+        .pgi-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .5rem;
+        }
+
+        .pgi-title {
+            font-size: .83rem;
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+
+        .pgi-cap {
+            font-size: .75rem;
+            color: var(--gray);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Error state */
+        .error-card {
+            background: #fff5f5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 14px;
+            padding: 1.25rem;
+            color: #dc2626;
+            font-size: .88rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span> <span
+                    style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.45)">· AI Content Plan</span></div>
+            <a class="back-btn" href="agency-hub.html">← Hub</a>
+        </div>
+    </header>
+
+    <div class="page">
+        <div class="page-hero">
+            <div class="page-badge">🤖 GEMINI AI</div>
+            <h1>AI Content Plan Generator</h1>
+            <p>Nhập thông tin → AI tạo lịch content 30 ngày chi tiết trong vài giây</p>
+        </div>
+
+        <div class="layout">
+
+            <!-- ── FORM ── -->
+            <div class="form-panel">
+                <div class="panel-title">📋 Thông Tin Client</div>
+
+                <div class="form-row">
+                    <label>Tên / thương hiệu *</label>
+                    <input type="text" id="f_client" placeholder="VD: CVNacoustic, InNhanh.vn…">
+                </div>
+                <div class="form-row">
+                    <label>Ngành nghề *</label>
+                    <input type="text" id="f_nganh" placeholder="VD: Âm thanh hội trường, In ấn, F&B…">
+                </div>
+                <div class="form-row">
+                    <label>Tháng thực hiện</label>
+                    <input type="text" id="f_thang" placeholder="VD: Tháng 4/2026">
+                </div>
+                <div class="form-row">
+                    <label>Kênh đăng *</label>
+                    <div class="check-group" id="kenhGroup">
+                        <label class="check-label"><input type="checkbox" value="Facebook"> Facebook</label>
+                        <label class="check-label"><input type="checkbox" value="Instagram"> Instagram</label>
+                        <label class="check-label"><input type="checkbox" value="TikTok"> TikTok</label>
+                        <label class="check-label"><input type="checkbox" value="LinkedIn"> LinkedIn</label>
+                        <label class="check-label"><input type="checkbox" value="Zalo"> Zalo OA</label>
+                        <label class="check-label"><input type="checkbox" value="YouTube"> YouTube</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>Số bài muốn tạo</label>
+                    <select id="f_sopost">
+                        <option value="12">12 bài (3/tuần)</option>
+                        <option value="16">16 bài (4/tuần)</option>
+                        <option value="20" selected>20 bài (5/tuần)</option>
+                        <option value="28">28 bài (7/tuần – daily)</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Mục tiêu marketing</label>
+                    <select id="f_muctieu">
+                        <option value="Tăng nhận diện thương hiệu & engagement">Brand Awareness</option>
+                        <option value="Tăng lead & chuyển đổi mua hàng">Lead Generation</option>
+                        <option value="Ra mắt sản phẩm / dịch vụ mới">Product Launch</option>
+                        <option value="Giữ chân khách hàng hiện tại, tăng loyalty">Customer Retention</option>
+                        <option value="Tăng traffic về website">Drive Website Traffic</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Mô tả thêm (tùy chọn)</label>
+                    <textarea id="f_moTA"
+                        placeholder="VD: Đang chạy khuyến mãi 20% tháng 4, muốn focus vào sản phẩm loa JBL mới…"
+                        rows="3"></textarea>
+                </div>
+
+                <button class="btn-generate" id="btnGenerate" onclick="generatePlan()">
+                    <span>✨</span> <span id="btnText">Tạo Content Plan với AI</span>
+                </button>
+            </div>
+
+            <!-- ── RESULT ── -->
+            <div class="result-area">
+
+                <!-- Empty -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📅</div>
+                    <h3>Content Plan sẽ hiện ở đây</h3>
+                    <p>Điền thông tin bên trái và nhấn nút tạo.<br>Gemini AI sẽ generate trong ~10 giây.</p>
+                </div>
+
+                <!-- Loading -->
+                <div class="loading-card" id="loadingCard">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Gemini AI đang xử lý…</div>
+                    <div class="loading-steps">
+                        <span id="ls1">⏳ Phân tích ngành & mục tiêu</span>
+                        <span id="ls2">⏳ Lên ý tưởng chủ đề 4 tuần</span>
+                        <span id="ls3">⏳ Tạo từng bài viết chi tiết</span>
+                        <span id="ls4">⏳ Tối ưu caption & hashtag</span>
+                    </div>
+                </div>
+
+                <!-- Plan Output -->
+                <div class="plan-output" id="planOutput">
+                    <div class="plan-header">
+                        <div>
+                            <h2>📅 Content Plan – <span id="po_client"></span></h2>
+                            <p id="po_meta"></p>
+                        </div>
+                        <div class="plan-actions">
+                            <button class="btn-copy-all" onclick="copyAll()">📋 Copy tất cả</button>
+                            <button class="btn-export" onclick="exportCSV()">📥 CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="overview-box" id="po_overview">
+                        <h3>🔭 Tổng quan chiến lược</h3>
+                        <div id="po_overview_text"></div>
+                    </div>
+
+                    <div class="themes-row" id="po_themes"></div>
+
+                    <div class="calendar-wrap">
+                        <div class="calendar-controls">
+                            <div class="view-toggle">
+                                <button class="view-btn active" onclick="setView('list',this)">📋 Danh sách</button>
+                                <button class="view-btn" onclick="setView('grid',this)">🗓 Lưới</button>
+                            </div>
+                            <div class="posts-filter" id="channelFilter"></div>
+                        </div>
+                        <div id="postsContainer"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GEMINI_API_KEY = 'AIzaSyCb5azTCKkma98jRLdb7vk6lANglw_e1Qc';
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+        let currentPlan = null;
+        let currentView = 'list';
+        let activeFilters = new Set(['all']);
+
+        // Auto-fill date
+        const now = new Date();
+        const nextM = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        document.getElementById('f_thang').value = `Tháng ${nextM.getMonth() + 1}/${nextM.getFullYear()}`;
+
+        // Checkbox
+        document.querySelectorAll('#kenhGroup .check-label').forEach(lbl => {
+            lbl.querySelector('input').addEventListener('change', function () {
+                lbl.classList.toggle('checked', this.checked);
+            });
+        });
+        // Default check FB & IG
+        document.querySelectorAll('#kenhGroup .check-label').forEach(lbl => {
+            const v = lbl.querySelector('input').value;
+            if (v === 'Facebook' || v === 'Instagram') { lbl.querySelector('input').checked = true; lbl.classList.add('checked'); }
+        });
+
+        function getKenh() {
+            return [...document.querySelectorAll('#kenhGroup input:checked')].map(i => i.value);
+        }
+
+        async function generatePlan() {
+            const client = document.getElementById('f_client').value.trim();
+            const nganh = document.getElementById('f_nganh').value.trim();
+            if (!client || !nganh) { alert('Vui lòng nhập tên thương hiệu và ngành nghề!'); return; }
+
+            const kenh = getKenh();
+            if (!kenh.length) { alert('Chọn ít nhất 1 kênh!'); return; }
+
+            const soPost = document.getElementById('f_sopost').value;
+            const mucTieu = document.getElementById('f_muctieu').value;
+            const moTA = document.getElementById('f_moTA').value.trim();
+            const thang = document.getElementById('f_thang').value;
+
+            // Show loading
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('planOutput').classList.remove('show');
+            document.getElementById('loadingCard').classList.add('show');
+            document.getElementById('btnGenerate').disabled = true;
+            document.getElementById('btnText').textContent = 'Đang tạo…';
+
+            // Animate loading steps
+            const steps = ['ls1', 'ls2', 'ls3', 'ls4'];
+            let si = 0;
+            const stepInterval = setInterval(() => {
+                if (si > 0) document.getElementById(steps[si - 1]).className = 'done';
+                if (si < steps.length) { document.getElementById(steps[si]).className = 'active'; si++; }
+            }, 2500);
+
+            const prompt = `Bạn là chuyên gia Content Marketing tại Việt Nam. Tạo KẾ HOẠCH CONTENT CHI TIẾT:
+
+THÔNG TIN:
+- Thương hiệu/ngành: ${client} – ${nganh}
+- Kênh: ${kenh.join(', ')}
+- Tháng: ${thang}
+- Số bài: ${soPost} posts
+- Mục tiêu: ${mucTieu}
+${moTA ? `- Ghi chú thêm: ${moTA}` : ''}
+
+OUTPUT PHẢI LÀ JSON HỢP LỆ:
+{
+  "tongQuan": "Chiến lược tổng quan 2-3 câu",
+  "chuDe": ["Chủ đề tuần 1","Chủ đề tuần 2","Chủ đề tuần 3","Chủ đề tuần 4"],
+  "posts": [
+    {
+      "ngay": "01",
+      "kenh": "${kenh[0]}",
+      "loai": "Ảnh/Video/Reels/Story",
+      "tieuDe": "Tiêu đề hấp dẫn",
+      "caption": "Caption 2-3 câu hay, có emoji, kết CTA",
+      "hashtags": "#hash1 #hash2 #hash3 #hash4 #hash5"
+    }
+  ]
+}
+
+Tạo ĐÚNG ${soPost} posts. Tiếng Việt. Phân đều qua ${kenh.join('/')}. Đánh số ngày từ 01-28/30. CHỈ JSON.`;
+
+            try {
+                const res = await fetch(GEMINI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.85, maxOutputTokens: 8192 }
+                    })
+                });
+                const data = await res.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+                // Parse JSON
+                const match = text.match(/\{[\s\S]*\}/);
+                if (!match) throw new Error('Gemini không trả về JSON hợp lệ. Thử lại!');
+                const plan = JSON.parse(match[0]);
+
+                clearInterval(stepInterval);
+                steps.forEach(s => document.getElementById(s).className = 'done');
+
+                setTimeout(() => {
+                    document.getElementById('loadingCard').classList.remove('show');
+                    currentPlan = { client, nganh, kenh, thang, soPost, plan };
+                    renderPlan(currentPlan);
+                    document.getElementById('planOutput').classList.add('show');
+                    document.getElementById('btnGenerate').disabled = false;
+                    document.getElementById('btnText').textContent = 'Tạo Lại';
+                }, 500);
+
+            } catch (err) {
+                clearInterval(stepInterval);
+                document.getElementById('loadingCard').classList.remove('show');
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('emptyState').innerHTML = `<div class="error-card">❌ <strong>Lỗi:</strong> ${err.message}</div>`;
+                document.getElementById('btnGenerate').disabled = false;
+                document.getElementById('btnText').textContent = 'Thử Lại';
+            }
+        }
+
+        function renderPlan({ client, nganh, thang, kenh, soPost, plan }) {
+            document.getElementById('po_client').textContent = client;
+            document.getElementById('po_meta').textContent = `${thang} · ${nganh} · ${kenh.join(', ')} · ${(plan.posts || []).length} posts`;
+
+            // Overview
+            document.getElementById('po_overview_text').textContent = plan.tongQuan || '';
+
+            // Themes
+            const themes = plan.chuDe || [];
+            document.getElementById('po_themes').innerHTML = themes.map((t, i) => `
+            <div class="theme-chip">
+                <div class="week">Tuần ${i + 1}</div>
+                <div class="title">${t}</div>
+            </div>`).join('');
+
+            // Channel filter
+            const allKenh = [...new Set((plan.posts || []).map(p => p.kenh).filter(Boolean))];
+            const filterEl = document.getElementById('channelFilter');
+            filterEl.innerHTML = `<button class="filter-chip on" onclick="toggleFilter('all',this)">Tất cả</button>` +
+                allKenh.map(k => `<button class="filter-chip" onclick="toggleFilter('${k}',this)">${k}</button>`).join('');
+
+            renderPosts(plan.posts || []);
+        }
+
+        function renderPosts(posts) {
+            const filtered = activeFilters.has('all') ? posts : posts.filter(p => activeFilters.has(p.kenh));
+            const container = document.getElementById('postsContainer');
+
+            const channelClass = k => {
+                if (!k) return 'ch-other';
+                k = k.toLowerCase();
+                if (k.includes('face')) return 'ch-fb';
+                if (k.includes('insta')) return 'ch-ig';
+                if (k.includes('tik')) return 'ch-tik';
+                if (k.includes('linked') || k.includes('google') || k.includes('gg')) return 'ch-gg';
+                return 'ch-other';
+            };
+
+            if (currentView === 'list') {
+                container.innerHTML = `<div class="posts-list">${filtered.map((p, i) => `
+                <div class="post-item">
+                    <div class="post-date">${p.ngay || String(i + 1).padStart(2, '0')}</div>
+                    <span class="post-channel ${channelClass(p.kenh)}">${p.kenh || '—'}</span>
+                    <div class="post-body">
+                        <div class="post-title">${p.tieuDe || ''}</div>
+                        <div class="post-caption">${p.caption || ''}</div>
+                        ${p.hashtags ? `<div class="post-hashtags">${p.hashtags}</div>` : ''}
+                    </div>
+                    <span class="post-type">${p.loai || 'Ảnh'}</span>
+                    <button class="copy-btn-sm" onclick="copyPost(${i})" title="Copy caption">📋</button>
+                </div>`).join('')}</div>`;
+            } else {
+                container.innerHTML = `<div class="posts-grid">${filtered.map((p, i) => `
+                <div class="post-grid-item">
+                    <div class="pgi-top">
+                        <span class="post-channel ${channelClass(p.kenh)}" style="font-size:.65rem;padding:.15rem .45rem;border-radius:5px;">${p.kenh || '—'}</span>
+                        <span style="font-size:.72rem;color:var(--orange);font-weight:700">Ngày ${p.ngay || i + 1}</span>
+                    </div>
+                    <div class="pgi-title">${p.tieuDe || ''}</div>
+                    <div class="pgi-cap">${p.caption || ''}</div>
+                </div>`).join('')}</div>`;
+            }
+        }
+
+        function toggleFilter(kenh, btn) {
+            if (kenh === 'all') {
+                activeFilters = new Set(['all']);
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('on'));
+                btn.classList.add('on');
+            } else {
+                activeFilters.delete('all');
+                document.querySelector('.filter-chip:first-child')?.classList.remove('on');
+                btn.classList.toggle('on');
+                if (btn.classList.contains('on')) activeFilters.add(kenh);
+                else { activeFilters.delete(kenh); if (!activeFilters.size) { activeFilters.add('all'); document.querySelector('.filter-chip:first-child')?.classList.add('on'); } }
+            }
+            renderPosts(currentPlan?.plan?.posts || []);
+        }
+
+        function setView(v, btn) {
+            currentView = v;
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderPosts(currentPlan?.plan?.posts || []);
+        }
+
+        function copyPost(i) {
+            const posts = currentPlan?.plan?.posts || [];
+            const p = posts[i];
+            if (!p) return;
+            const txt = `${p.tieuDe}\n\n${p.caption}\n\n${p.hashtags || ''}`;
+            navigator.clipboard.writeText(txt).then(() => {
+                document.querySelectorAll('.copy-btn-sm')[i].textContent = '✅';
+                setTimeout(() => { document.querySelectorAll('.copy-btn-sm')[i].textContent = '📋'; }, 1500);
+            });
+        }
+
+        function copyAll() {
+            const posts = currentPlan?.plan?.posts || [];
+            const txt = posts.map(p => `📅 Ngày ${p.ngay} [${p.kenh}] ${p.loai}\n${p.tieuDe}\n${p.caption}\n${p.hashtags || ''}`).join('\n\n---\n\n');
+            navigator.clipboard.writeText(`CONTENT PLAN – ${currentPlan?.client}\n${currentPlan?.thang}\n\n${txt}`).then(() => {
+                document.querySelector('.btn-copy-all').textContent = '✅ Đã copy!';
+                setTimeout(() => document.querySelector('.btn-copy-all').textContent = '📋 Copy tất cả', 2000);
+            });
+        }
+
+        function exportCSV() {
+            const posts = currentPlan?.plan?.posts || [];
+            const csv = ['Ngay,Kenh,Loai,TieuDe,Caption,Hashtags',
+                ...posts.map(p => `"${p.ngay}","${p.kenh}","${p.loai || 'Anh'}","${(p.tieuDe || '').replace(/"/g, '""')}","${(p.caption || '').replace(/"/g, '""')}","${(p.hashtags || '').replace(/"/g, '""')}"`)
+            ].join('\n');
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = `content-plan-${currentPlan?.client || 'truedigi'}-${currentPlan?.thang || ''}.csv`.replace(/\s+/g, '-');
+            a.click();
+        }
+    </script>
+</body>
+
+</html>

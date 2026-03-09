@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Tháng – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --red: #ef4444;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        /* ── BUILDER UI (hidden on print) ── */
+        header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 1.25rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .header-right {
+            display: flex;
+            gap: .75rem;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        .btn-print {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: .5rem 1.1rem;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ── TABS ── */
+        .editor {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        .info-strip {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-field {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+        }
+
+        .info-field label {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-field input,
+        .info-field select {
+            padding: .55rem .85rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: .88rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            transition: .2s;
+        }
+
+        .info-field input:focus,
+        .info-field select:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        .tabs {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: .5rem 1.25rem;
+            border-radius: 10px;
+            border: 2px solid var(--light);
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--gray);
+            transition: .2s;
+        }
+
+        .tab-btn.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn .3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── METRIC CARDS ── */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--light);
+        }
+
+        .metric-card.highlight {
+            border-color: var(--orange);
+        }
+
+        .metric-hd {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-icon {
+            font-size: 1.2rem;
+        }
+
+        .metric-title {
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+        .metric-fields {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+
+        .metric-row {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .metric-label {
+            font-size: .78rem;
+            color: var(--gray);
+            min-width: 110px;
+            font-weight: 600;
+        }
+
+        .metric-input {
+            flex: 1;
+            padding: .4rem .75rem;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: .88rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            text-align: right;
+            transition: .2s;
+        }
+
+        .metric-input:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        .metric-growth {
+            min-width: 60px;
+            font-size: .82rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .g-up {
+            color: var(--green-dark);
+        }
+
+        .g-down {
+            color: var(--red);
+        }
+
+        .g-flat {
+            color: var(--gray);
+        }
+
+        /* ── NOTES ── */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media(max-width:640px) {
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .note-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .note-card h4 {
+            font-size: .8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--orange);
+            margin-bottom: .75rem;
+        }
+
+        .note-card textarea {
+            width: 100%;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            padding: .75rem;
+            font-family: inherit;
+            font-size: .85rem;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.6;
+        }
+
+        .note-card textarea:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        /* ── REPORT PREVIEW (print-friendly) ── */
+        .report-preview {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .rp-header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 2rem 2.5rem;
+            color: #fff;
+        }
+
+        .rp-logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: .1rem;
+        }
+
+        .rp-logo span {
+            color: var(--orange);
+        }
+
+        .rp-tagline {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 1.5rem;
+        }
+
+        .rp-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: .25rem;
+        }
+
+        .rp-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-top: 1rem;
+        }
+
+        .rp-meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: .3rem .8rem;
+            font-size: .75rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .rp-meta-item strong {
+            color: #fff;
+        }
+
+        .rp-body {
+            padding: 2rem 2.5rem;
+        }
+
+        .rp-section {
+            margin-bottom: 2rem;
+        }
+
+        .rp-section-title {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .rp-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: .75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .rp-kpi {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .rp-kpi .kpi-v {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .rp-kpi .kpi-l {
+            font-size: .72rem;
+            color: var(--gray);
+            margin-top: .15rem;
+        }
+
+        .rp-kpi .kpi-g {
+            font-size: .75rem;
+            font-weight: 700;
+            margin-top: .1rem;
+        }
+
+        .rp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+        }
+
+        .rp-table th {
+            background: var(--navy);
+            color: #fff;
+            padding: .7rem 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .rp-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .rp-table th:last-child {
+            border-radius: 0 8px 0 0;
+            text-align: right;
+        }
+
+        .rp-table td {
+            padding: .7rem 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .rp-table td:last-child {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .rp-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge-sm {
+            font-size: .68rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 6px;
+        }
+
+        .sb-up {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--green-dark);
+        }
+
+        .sb-down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .rp-note-box {
+            background: var(--bg);
+            border-left: 4px solid var(--orange);
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.25rem;
+            font-size: .87rem;
+            line-height: 1.7;
+            white-space: pre-line;
+        }
+
+        .rp-footer {
+            background: var(--bg);
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: .75rem;
+            color: var(--gray);
+            flex-wrap: wrap;
+            gap: .5rem;
+            border-top: 2px solid var(--light);
+        }
+
+        @media print {
+
+            header,
+            .editor> :not(.report-preview),
+            .tabs,
+            .info-strip,
+            .metric-grid,
+            .notes-grid,
+            .tab-content {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .editor {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .report-preview {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span> <span
+                    style="font-size:.8rem;font-weight:500;color:rgba(255,255,255,0.5);">· Báo Cáo Tháng</span></div>
+            <div class="header-right">
+                <a class="back-btn" href="agency-hub.html">← Hub</a>
+                <button class="btn-print" onclick="buildAndPrint()">🖨️ In / PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="editor">
+
+        <!-- ── INFO STRIP ── -->
+        <div class="info-strip">
+            <div class="info-field">
+                <label>Tên khách hàng</label>
+                <input type="text" id="r_client" placeholder="Công ty ABC" oninput="updatePreview()">
+            </div>
+            <div class="info-field">
+                <label>Tháng báo cáo</label>
+                <input type="text" id="r_month" placeholder="Tháng 3/2026" oninput="updatePreview()">
+            </div>
+            <div class="info-field">
+                <label>Người phụ trách</label>
+                <input type="text" id="r_owner" placeholder="Account name" oninput="updatePreview()">
+            </div>
+            <div class="info-field">
+                <label>Ngày báo cáo</label>
+                <input type="text" id="r_date" oninput="updatePreview()">
+            </div>
+            <div class="info-field">
+                <label>Dịch vụ chính</label>
+                <select id="r_service" onchange="switchTab()">
+                    <option value="seo">SEO</option>
+                    <option value="ads">Paid Ads (FB + GG)</option>
+                    <option value="social">Social Media</option>
+                    <option value="content">Content</option>
+                    <option value="full">Toàn diện</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ── TABS ── -->
+        <div class="tabs" id="tabsBar">
+            <button class="tab-btn active" onclick="openTab('seo',this)">🔍 SEO</button>
+            <button class="tab-btn" onclick="openTab('ads',this)">🎯 Paid Ads</button>
+            <button class="tab-btn" onclick="openTab('social',this)">📱 Social</button>
+            <button class="tab-btn" onclick="openTab('notes',this)">📝 Nhận Xét</button>
+            <button class="tab-btn" onclick="openTab('preview',this)">👁️ Preview</button>
+        </div>
+
+        <!-- SEO TAB -->
+        <div class="tab-content active" id="tab_seo">
+            <div class="metric-grid">
+                <div class="metric-card highlight">
+                    <div class="metric-hd"><span class="metric-icon">🔢</span><span class="metric-title">Từ Khóa</span>
+                    </div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Top 1-3 (mục tiêu)</span><input
+                                class="metric-input" type="number" id="seo_kw13_target" placeholder="0"
+                                oninput="calcGrowth('seo_kw13')"></div>
+                        <div class="metric-row"><span class="metric-label">Top 1-3 (thực tế)</span><input
+                                class="metric-input" type="number" id="seo_kw13_actual" placeholder="0"
+                                oninput="calcGrowth('seo_kw13')"><span class="metric-growth" id="seo_kw13_g">—</span>
+                        </div>
+                        <div class="metric-row"><span class="metric-label">Top 10 (mục tiêu)</span><input
+                                class="metric-input" type="number" id="seo_kw10_target" placeholder="0"
+                                oninput="calcGrowth('seo_kw10')"></div>
+                        <div class="metric-row"><span class="metric-label">Top 10 (thực tế)</span><input
+                                class="metric-input" type="number" id="seo_kw10_actual" placeholder="0"
+                                oninput="calcGrowth('seo_kw10')"><span class="metric-growth" id="seo_kw10_g">—</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">📈</span><span class="metric-title">Traffic
+                            Organic</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Mục tiêu</span><input class="metric-input"
+                                type="number" id="seo_traffic_target" placeholder="0"
+                                oninput="calcGrowth('seo_traffic')"></div>
+                        <div class="metric-row"><span class="metric-label">Thực tế</span><input class="metric-input"
+                                type="number" id="seo_traffic_actual" placeholder="0"
+                                oninput="calcGrowth('seo_traffic')"><span class="metric-growth"
+                                id="seo_traffic_g">—</span></div>
+                        <div class="metric-row"><span class="metric-label">Tháng trước</span><input class="metric-input"
+                                type="number" id="seo_traffic_prev" placeholder="0" oninput="calcGrowth('seo_traffic')">
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">⏱️</span><span
+                            class="metric-title">Engagement</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Bounce rate (%)</span><input
+                                class="metric-input" type="number" id="seo_bounce" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Thời gian trên trang (s)</span><input
+                                class="metric-input" type="number" id="seo_time" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Trang / phiên</span><input
+                                class="metric-input" type="number" id="seo_pages" placeholder="0" step="0.1"></div>
+                        <div class="metric-row"><span class="metric-label">Backlinks mới</span><input
+                                class="metric-input" type="number" id="seo_links" placeholder="0"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">✅</span><span class="metric-title">Công Việc
+                            Tháng</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Bài viết đã đăng</span><input
+                                class="metric-input" type="number" id="seo_posts" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Backlinks đã xây</span><input
+                                class="metric-input" type="number" id="seo_built_links" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">On-page fixes</span><input
+                                class="metric-input" type="number" id="seo_fixes" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Technical issues done</span><input
+                                class="metric-input" type="number" id="seo_tech" placeholder="0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADS TAB -->
+        <div class="tab-content" id="tab_ads">
+            <div class="metric-grid">
+                <div class="metric-card highlight">
+                    <div class="metric-hd"><span class="metric-icon">💰</span><span class="metric-title">Ngân Sách
+                            Ads</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Budget (triệu đ)</span><input
+                                class="metric-input" type="number" id="ads_budget" placeholder="0" step="0.1"></div>
+                        <div class="metric-row"><span class="metric-label">Chi tiêu thực tế</span><input
+                                class="metric-input" type="number" id="ads_spent" placeholder="0" step="0.1"
+                                oninput="calcAdsROI()"></div>
+                        <div class="metric-row"><span class="metric-label">Doanh thu từ ads</span><input
+                                class="metric-input" type="number" id="ads_revenue" placeholder="0"
+                                oninput="calcAdsROI()"></div>
+                        <div class="metric-row"><span class="metric-label">ROAS (auto)</span><input class="metric-input"
+                                type="text" id="ads_roas" placeholder="—" readonly
+                                style="color:var(--green-dark);font-weight:700;"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">📘</span><span class="metric-title">Facebook /
+                            Instagram</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Impressions</span><input class="metric-input"
+                                type="number" id="fb_imp" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Clicks</span><input class="metric-input"
+                                type="number" id="fb_clicks" placeholder="0" oninput="calcCTR('fb')"></div>
+                        <div class="metric-row"><span class="metric-label">CTR (auto %)</span><input
+                                class="metric-input" id="fb_ctr" readonly placeholder="0%"></div>
+                        <div class="metric-row"><span class="metric-label">Leads / Conversions</span><input
+                                class="metric-input" type="number" id="fb_leads" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">CPC (đ)</span><input class="metric-input"
+                                type="number" id="fb_cpc" placeholder="0"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">🎯</span><span class="metric-title">Google
+                            Ads</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Impressions</span><input class="metric-input"
+                                type="number" id="gg_imp" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Clicks</span><input class="metric-input"
+                                type="number" id="gg_clicks" placeholder="0" oninput="calcCTR('gg')"></div>
+                        <div class="metric-row"><span class="metric-label">CTR (auto %)</span><input
+                                class="metric-input" id="gg_ctr" readonly placeholder="0%"></div>
+                        <div class="metric-row"><span class="metric-label">Conversions</span><input class="metric-input"
+                                type="number" id="gg_conv" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">CPC (đ)</span><input class="metric-input"
+                                type="number" id="gg_cpc" placeholder="0"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">📊</span><span class="metric-title">Tổng Hợp
+                            Ads</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Tổng leads (mục tiêu)</span><input
+                                class="metric-input" type="number" id="ads_leads_target" placeholder="0"
+                                oninput="calcGrowth('ads_leads')"></div>
+                        <div class="metric-row"><span class="metric-label">Tổng leads (thực tế)</span><input
+                                class="metric-input" type="number" id="ads_leads_actual" placeholder="0"
+                                oninput="calcGrowth('ads_leads')"><span class="metric-growth" id="ads_leads_g">—</span>
+                        </div>
+                        <div class="metric-row"><span class="metric-label">CPL trung bình (đ)</span><input
+                                class="metric-input" type="number" id="ads_cpl" placeholder="0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOCIAL TAB -->
+        <div class="tab-content" id="tab_social">
+            <div class="metric-grid">
+                <div class="metric-card highlight">
+                    <div class="metric-hd"><span class="metric-icon">👥</span><span class="metric-title">Followers /
+                            Reach</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Followers hiện tại</span><input
+                                class="metric-input" type="number" id="sc_followers" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Tăng trong tháng</span><input
+                                class="metric-input" type="number" id="sc_follow_gain" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Reach tổng (post)</span><input
+                                class="metric-input" type="number" id="sc_reach" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Impressions</span><input class="metric-input"
+                                type="number" id="sc_imp" placeholder="0"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">❤️</span><span
+                            class="metric-title">Engagement</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Lượt thích</span><input class="metric-input"
+                                type="number" id="sc_likes" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Bình luận</span><input class="metric-input"
+                                type="number" id="sc_comments" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Chia sẻ</span><input class="metric-input"
+                                type="number" id="sc_shares" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Lượt lưu</span><input class="metric-input"
+                                type="number" id="sc_saves" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Engagement rate (%)</span><input
+                                class="metric-input" type="number" id="sc_er" placeholder="0" step="0.01"></div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-hd"><span class="metric-icon">📅</span><span class="metric-title">Nội Dung Đã
+                            Đăng</span></div>
+                    <div class="metric-fields">
+                        <div class="metric-row"><span class="metric-label">Post mục tiêu</span><input
+                                class="metric-input" type="number" id="sc_post_target" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Post thực tế</span><input
+                                class="metric-input" type="number" id="sc_post_actual" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Reels / Video</span><input
+                                class="metric-input" type="number" id="sc_video" placeholder="0"></div>
+                        <div class="metric-row"><span class="metric-label">Stories</span><input class="metric-input"
+                                type="number" id="sc_stories" placeholder="0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES TAB -->
+        <div class="tab-content" id="tab_notes">
+            <div class="notes-grid">
+                <div class="note-card">
+                    <h4>✅ Kết Quả Nổi Bật Tháng Này</h4>
+                    <textarea id="n_highlights"
+                        placeholder="• Từ khóa 'X' vào top 5&#10;• Traffic tăng 35% so tháng trước&#10;• ..."></textarea>
+                </div>
+                <div class="note-card">
+                    <h4>⚠️ Vấn Đề & Thách Thức</h4>
+                    <textarea id="n_challenges"
+                        placeholder="• Tốc độ website chậm ảnh hưởng SEO&#10;• CPL tăng do mùa cao điểm&#10;• ..."></textarea>
+                </div>
+                <div class="note-card">
+                    <h4>📋 Kế Hoạch Tháng Sau</h4>
+                    <textarea id="n_plan"
+                        placeholder="• Focus nhóm từ khóa thương mại&#10;• A/B test creative mới&#10;• ..."></textarea>
+                </div>
+                <div class="note-card">
+                    <h4>💡 Đề Xuất & Khuyến Nghị</h4>
+                    <textarea id="n_recommend"
+                        placeholder="• Nên tăng ngân sách GG Ads 20%&#10;• Cần update trang dịch vụ&#10;• ..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREVIEW TAB -->
+        <div class="tab-content" id="tab_preview">
+            <div class="report-preview" id="reportDoc">
+                <!-- generated by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Date default
+        const today = new Date();
+        const months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        document.getElementById('r_date').value = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+        document.getElementById('r_month').value = `${months[today.getMonth()]} ${today.getFullYear()}`;
+
+        function openTab(name, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab_' + name).classList.add('active');
+            btn.classList.add('active');
+            if (name === 'preview') buildPreview();
+        }
+
+        function switchTab() {
+            const svc = document.getElementById('r_service').value;
+            const map = { seo: 'seo', ads: 'ads', social: 'social', content: 'notes', full: 'seo' };
+            const btn = [...document.querySelectorAll('.tab-btn')].find(b => b.onclick?.toString().includes(`'${map[svc] || 'seo'}'`));
+            if (btn) btn.click();
+        }
+
+        function calcGrowth(id) {
+            const target = parseFloat(document.getElementById(id + '_target')?.value) || 0;
+            const actual = parseFloat(document.getElementById(id + '_actual')?.value) || 0;
+            const el = document.getElementById(id + '_g');
+            if (!el) return;
+            if (!target) { el.textContent = '—'; el.className = 'metric-growth g-flat'; return; }
+            const pct = ((actual - target) / target * 100).toFixed(1);
+            const sign = pct >= 0 ? '+' : '';
+            el.textContent = `${sign}${pct}%`;
+            el.className = 'metric-growth ' + (pct >= 0 ? 'g-up' : 'g-down');
+        }
+
+        function calcCTR(platform) {
+            const imp = parseFloat(document.getElementById(platform + '_imp').value) || 0;
+            const clicks = parseFloat(document.getElementById(platform + '_clicks').value) || 0;
+            const ctr = imp ? (clicks / imp * 100).toFixed(2) : 0;
+            document.getElementById(platform + '_ctr').value = ctr + '%';
+        }
+
+        function calcAdsROI() {
+            const spent = parseFloat(document.getElementById('ads_spent').value) || 0;
+            const rev = parseFloat(document.getElementById('ads_revenue').value) || 0;
+            document.getElementById('ads_roas').value = spent ? (rev / spent).toFixed(2) + 'x' : '—';
+        }
+
+        function g(id) { return document.getElementById(id)?.value || ''; }
+
+        function buildPreview() {
+            const client = g('r_client') || 'Khách Hàng';
+            const month = g('r_month') || months[today.getMonth()] + ' ' + today.getFullYear();
+            const date = g('r_date');
+            const owner = g('r_owner');
+
+            // SEO KPIs
+            const seoRows = [
+                { label: 'Từ khóa Top 1-3', target: g('seo_kw13_target'), actual: g('seo_kw13_actual') },
+                { label: 'Từ khóa Top 10', target: g('seo_kw10_target'), actual: g('seo_kw10_actual') },
+                { label: 'Traffic Organic', target: g('seo_traffic_target'), actual: g('seo_traffic_actual') },
+            ].filter(r => r.target || r.actual);
+
+            // Ads KPIs
+            const adsRows = [
+                { label: 'Tổng Leads', target: g('ads_leads_target'), actual: g('ads_leads_actual') },
+                { label: 'FB Clicks', target: '—', actual: g('fb_clicks') },
+                { label: 'GG Conversions', target: '—', actual: g('gg_conv') },
+            ].filter(r => r.actual !== '');
+
+            const buildTable = (rows) => rows.length ? `
+            <table class="rp-table">
+                <thead><tr><th>Chỉ Số</th><th>Mục Tiêu</th><th>Thực Tế</th><th>Đánh Giá</th></tr></thead>
+                <tbody>${rows.map(r => {
+                const t = parseFloat(r.target) || 0;
+                const a = parseFloat(r.actual) || 0;
+                const ok = t ? a >= t : true;
+                const badge = t ? `<span class="status-badge-sm ${ok ? 'sb-up' : 'sb-down'}">${ok ? '✓ Đạt' : '✗ Chưa đạt'}</span>` : '—';
+                return `<tr><td>${r.label}</td><td>${r.target || '—'}</td><td>${r.actual || '—'}</td><td>${badge}</td></tr>`;
+            }).join('')}</tbody>
+            </table>` : '<p style="color:var(--gray);font-size:.85rem;">Chưa có dữ liệu</p>';
+
+            const notes = (id, title) => {
+                const v = g(id);
+                return v ? `<div class="rp-section"><div class="rp-section-title">${title}</div><div class="rp-note-box">${v}</div></div>` : '';
+            };
+
+            document.getElementById('reportDoc').innerHTML = `
+            <div class="rp-header">
+                <div class="rp-logo">True<span>Digi</span></div>
+                <div class="rp-tagline">Digital Marketing Agency</div>
+                <div class="rp-title">BÁO CÁO THÁNG</div>
+                <div style="color:rgba(255,255,255,0.7);font-size:.9rem;">${month} – ${client}</div>
+                <div class="rp-meta">
+                    <div class="rp-meta-item"><strong>Khách hàng:</strong> ${client}</div>
+                    <div class="rp-meta-item"><strong>Tháng:</strong> ${month}</div>
+                    ${date ? `<div class="rp-meta-item"><strong>Ngày:</strong> ${date}</div>` : ''}
+                    ${owner ? `<div class="rp-meta-item"><strong>Phụ trách:</strong> ${owner}</div>` : ''}
+                </div>
+            </div>
+            <div class="rp-body">
+                ${seoRows.length ? `<div class="rp-section"><div class="rp-section-title">🔍 KẾT QUẢ SEO</div>${buildTable(seoRows)}</div>` : ''}
+                ${adsRows.length ? `<div class="rp-section"><div class="rp-section-title">🎯 KẾT QUẢ PAID ADS</div>${buildTable(adsRows)}</div>` : ''}
+                ${g('sc_followers') ? `<div class="rp-section"><div class="rp-section-title">📱 SOCIAL MEDIA</div>
+                    <div class="rp-kpi-grid">
+                        ${g('sc_followers') ? `<div class="rp-kpi"><div class="kpi-v">${Number(g('sc_followers')).toLocaleString('vi-VN')}</div><div class="kpi-l">Followers</div></div>` : ''}
+                        ${g('sc_follow_gain') ? `<div class="rp-kpi"><div class="kpi-v">+${g('sc_follow_gain')}</div><div class="kpi-l">Tăng tháng này</div></div>` : ''}
+                        ${g('sc_reach') ? `<div class="rp-kpi"><div class="kpi-v">${Number(g('sc_reach')).toLocaleString('vi-VN')}</div><div class="kpi-l">Reach</div></div>` : ''}
+                        ${g('sc_er') ? `<div class="rp-kpi"><div class="kpi-v">${g('sc_er')}%</div><div class="kpi-l">Engagement Rate</div></div>` : ''}
+                    </div></div>` : ''}
+                ${notes('n_highlights', '✅ KẾT QUẢ NỔI BẬT')}
+                ${notes('n_challenges', '⚠️ VẤN ĐỀ & THÁCH THỨC')}
+                ${notes('n_plan', '📋 KẾ HOẠCH THÁNG SAU')}
+                ${notes('n_recommend', '💡 ĐỀ XUẤT & KHUYẾN NGHỊ')}
+            </div>
+            <div class="rp-footer">
+                <span>TrueDigi · truedigi.com</span>
+                <span>Báo cáo ${month} · ${client}</span>
+                <span>${owner ? 'Phụ trách: ' + owner : ''}</span>
+            </div>
+        `;
+        }
+
+        function buildAndPrint() {
+            buildPreview();
+            // Switch to preview tab then print
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab_preview').classList.add('active');
+            [...document.querySelectorAll('.tab-btn')].find(b => b.textContent.includes('Preview'))?.classList.add('active');
+            setTimeout(() => window.print(), 300);
+        }
+
+        function updatePreview() { /* live update would go here */ }
+    </script>
+</body>
+
+</html>

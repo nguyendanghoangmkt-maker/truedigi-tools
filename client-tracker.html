@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Tracker – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 1.25rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        .btn-add-client {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: .5rem 1.1rem;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s;
+        }
+
+        .btn-add-client:hover {
+            background: var(--orange-light);
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        /* ── SUMMARY STRIP ── */
+        .summary-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media(max-width:700px) {
+            .summary-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .sum-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .sum-val {
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .sum-lbl {
+            font-size: .72rem;
+            color: var(--gray);
+            font-weight: 500;
+            margin-top: .2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ── FILTER ── */
+        .filter-row {
+            display: flex;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: .4rem 1rem;
+            border-radius: 20px;
+            border: 2px solid var(--light);
+            font-size: .8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            background: var(--white);
+            color: var(--gray);
+            font-family: inherit;
+        }
+
+        .filter-btn.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 180px;
+            padding: .4rem 1rem;
+            border: 2px solid var(--light);
+            border-radius: 20px;
+            font-size: .82rem;
+            font-family: inherit;
+            outline: none;
+            background: var(--white);
+            color: var(--navy);
+        }
+
+        .search-input:focus {
+            border-color: var(--orange);
+        }
+
+        /* ── CLIENT GRID ── */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .client-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: .25s;
+            border: 2px solid transparent;
+        }
+
+        .client-card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .client-card.status-active {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .client-card.status-pending {
+            border-color: rgba(245, 166, 35, 0.3);
+        }
+
+        .client-card.status-done {
+            border-color: rgba(107, 114, 128, 0.2);
+            opacity: .75;
+        }
+
+        .card-top {
+            padding: 1.25rem 1.5rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .client-info {
+            flex: 1;
+        }
+
+        .client-name {
+            font-size: 1.05rem;
+            font-weight: 900;
+            margin-bottom: .2rem;
+        }
+
+        .client-industry {
+            font-size: .78rem;
+            color: var(--gray);
+            margin-bottom: .5rem;
+        }
+
+        .client-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .3rem;
+        }
+
+        .svc-tag {
+            font-size: .65rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 6px;
+            background: rgba(255, 92, 26, 0.1);
+            color: var(--orange);
+        }
+
+        .status-badge {
+            padding: .25rem .7rem;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .badge-active {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--green-dark);
+        }
+
+        .badge-pending {
+            background: rgba(245, 166, 35, 0.15);
+            color: #b45309;
+        }
+
+        .badge-done {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--gray);
+        }
+
+        /* Progress */
+        .card-progress {
+            padding: .75rem 1.5rem;
+            background: var(--bg);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: .75rem;
+            margin-bottom: .4rem;
+        }
+
+        .progress-info .pi-label {
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .progress-info .pi-val {
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .progress-track {
+            height: 7px;
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--orange), var(--gold));
+            transition: width .5s;
+        }
+
+        /* Tasks */
+        .card-tasks {
+            padding: 1rem 1.5rem;
+        }
+
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .6rem;
+        }
+
+        .tasks-header span {
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .add-task-sm {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--orange);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .task-sm {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .4rem 0;
+            border-bottom: 1px solid var(--bg);
+            font-size: .82rem;
+        }
+
+        .task-sm:last-child {
+            border-bottom: none;
+        }
+
+        .task-cb-sm {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 2px solid var(--light);
+            flex-shrink: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .6rem;
+            color: transparent;
+            transition: .15s;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .task-sm.done-task .task-cb-sm {
+            color: var(--green);
+        }
+
+        .task-sm.done-task .task-sm-text {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .task-sm-text {
+            flex: 1;
+        }
+
+        .task-sm-del {
+            background: none;
+            border: none;
+            color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: .8rem;
+        }
+
+        .task-sm-del:hover {
+            color: var(--red);
+        }
+
+        .task-input-sm {
+            width: 100%;
+            margin-top: .5rem;
+            padding: .35rem .65rem;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: .82rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .task-input-sm:focus {
+            border-color: var(--orange);
+        }
+
+        /* Card footer */
+        .card-foot {
+            padding: .75rem 1.5rem;
+            border-top: 1px solid var(--bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-meta {
+            font-size: .73rem;
+            color: var(--gray);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: .4rem;
+        }
+
+        .btn-sm {
+            padding: .3rem .65rem;
+            border-radius: 7px;
+            font-size: .72rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            border: 2px solid var(--light);
+            background: var(--bg);
+            color: var(--gray);
+            transition: .15s;
+        }
+
+        .btn-sm:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        .btn-sm.danger:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn .3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal h2 {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal .form-row {
+            margin-bottom: .85rem;
+        }
+
+        .modal .form-row label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 700;
+            margin-bottom: .3rem;
+        }
+
+        .modal input,
+        .modal select {
+            width: 100%;
+            padding: .65rem .9rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: .88rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            transition: .2s;
+        }
+
+        .modal input:focus,
+        .modal select:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        .modal .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+
+        .modal .check-label {
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg);
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            padding: .3rem .7rem;
+            transition: .15s;
+        }
+
+        .modal .check-label input {
+            display: none;
+        }
+
+        .modal .check-label.checked {
+            background: rgba(255, 92, 26, 0.1);
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .75rem;
+            margin-top: 1.25rem;
+        }
+
+        .btn-modal-cancel {
+            padding: .65rem 1.25rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--bg);
+            border: 2px solid var(--light);
+            color: var(--gray);
+        }
+
+        .btn-modal-save {
+            padding: .65rem 1.5rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--orange);
+            color: #fff;
+            border: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--gray);
+        }
+
+        .empty-state .es-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            font-size: .9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span> <span
+                    style="font-size:.8rem;font-weight:500;color:rgba(255,255,255,0.5);">· Client Tracker</span></div>
+            <div class="header-right">
+                <a class="back-btn" href="agency-hub.html">← Hub</a>
+                <button class="btn-add-client" onclick="openModal()">+ Thêm Client</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="page">
+
+        <!-- Summary -->
+        <div class="summary-strip">
+            <div class="sum-card">
+                <div class="sum-val" id="s_total" style="color:var(--navy)">0</div>
+                <div class="sum-lbl">Tổng client</div>
+            </div>
+            <div class="sum-card">
+                <div class="sum-val" id="s_active" style="color:var(--green)">0</div>
+                <div class="sum-lbl">Đang chạy</div>
+            </div>
+            <div class="sum-card">
+                <div class="sum-val" id="s_tasks" style="color:var(--orange)">0</div>
+                <div class="sum-lbl">Tasks chưa xong</div>
+            </div>
+            <div class="sum-card">
+                <div class="sum-val" id="s_done" style="color:var(--gray)">0</div>
+                <div class="sum-lbl">Hoàn thành</div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-row">
+            <button class="filter-btn active" onclick="setFilter('all',this)">Tất cả</button>
+            <button class="filter-btn" onclick="setFilter('active',this)">Đang chạy</button>
+            <button class="filter-btn" onclick="setFilter('pending',this)">Chờ</button>
+            <button class="filter-btn" onclick="setFilter('done',this)">Xong</button>
+            <input class="search-input" type="text" id="searchInput" placeholder="🔍 Tìm client..."
+                oninput="renderClients()">
+        </div>
+
+        <!-- Grid -->
+        <div class="clients-grid" id="clientsGrid"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">➕ Thêm Client Mới</h2>
+            <div class="form-row"><label>Tên khách hàng *</label><input type="text" id="m_name"
+                    placeholder="Công ty TNHH ABC"></div>
+            <div class="form-row"><label>Ngành nghề</label><input type="text" id="m_industry"
+                    placeholder="Bất động sản / F&B…"></div>
+            <div class="form-row">
+                <label>Trạng thái</label>
+                <select id="m_status">
+                    <option value="active">🟢 Đang chạy</option>
+                    <option value="pending">🟡 Chờ triển khai</option>
+                    <option value="done">⚫ Đã hoàn thành</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>Dịch vụ đang làm</label>
+                <div class="check-group" id="m_services">
+                    <label class="check-label"><input type="checkbox" value="SEO"> SEO</label>
+                    <label class="check-label"><input type="checkbox" value="FB Ads"> FB Ads</label>
+                    <label class="check-label"><input type="checkbox" value="GG Ads"> GG Ads</label>
+                    <label class="check-label"><input type="checkbox" value="Content"> Content</label>
+                    <label class="check-label"><input type="checkbox" value="Social"> Social</label>
+                    <label class="check-label"><input type="checkbox" value="Website"> Website</label>
+                    <label class="check-label"><input type="checkbox" value="Email"> Email</label>
+                    <label class="check-label"><input type="checkbox" value="AI"> AI Training</label>
+                </div>
+            </div>
+            <div class="form-row"><label>Người phụ trách</label><input type="text" id="m_owner"
+                    placeholder="Tên account manager"></div>
+            <div class="form-row"><label>Deadline / Mốc quan trọng</label><input type="text" id="m_deadline"
+                    placeholder="VD: 31/03/2026 – Báo cáo Q1"></div>
+            <div class="form-row"><label>Ghi chú</label><input type="text" id="m_note" placeholder="Thêm ghi chú...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="closeModal()">Huỷ</button>
+                <button class="btn-modal-save" onclick="saveClient()">Lưu Client</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clients = JSON.parse(localStorage.getItem('tracker_clients') || '[]');
+        let editIndex = -1;
+        let currentFilter = 'all';
+
+        // Modal service checkboxes
+        document.querySelectorAll('#m_services .check-label').forEach(lbl => {
+            lbl.querySelector('input').addEventListener('change', function () {
+                lbl.classList.toggle('checked', this.checked);
+            });
+        });
+
+        function save() { localStorage.setItem('tracker_clients', JSON.stringify(clients)); }
+
+        function setFilter(f, btn) {
+            currentFilter = f;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderClients();
+        }
+
+        function renderClients() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = clients.filter(c => {
+                if (currentFilter !== 'all' && c.status !== currentFilter) return false;
+                if (search && !c.name.toLowerCase().includes(search) && !(c.industry || '').toLowerCase().includes(search)) return false;
+                return true;
+            });
+
+            const grid = document.getElementById('clientsGrid');
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="es-icon">📋</div><p>${clients.length === 0 ? 'Chưa có client nào. Nhấn "<strong>+ Thêm Client</strong>" để bắt đầu!' : 'Không tìm thấy client phù hợp.'}</p></div>`;
+                updateSummary(); return;
+            }
+
+            grid.innerHTML = '';
+            filtered.forEach((client, fi) => {
+                const ri = clients.indexOf(client);
+                const tasks = client.tasks || [];
+                const done = tasks.filter(t => t.done).length;
+                const pct = tasks.length ? Math.round(done / tasks.length * 100) : 0;
+                const statusLabel = { active: '🟢 Đang chạy', pending: '🟡 Chờ', done: '⚫ Xong' }[client.status] || 'Không rõ';
+                const badgeClass = { active: 'badge-active', pending: 'badge-pending', done: 'badge-done' }[client.status] || '';
+
+                const taskItems = tasks.map((t, ti) => `
+                <div class="task-sm ${t.done ? 'done-task' : ''}">
+                    <button class="task-cb-sm" onclick="toggleTask(${ri},${ti})">${t.done ? '✅' : '⬜'}</button>
+                    <span class="task-sm-text">${t.text}</span>
+                    <button class="task-sm-del" onclick="deleteTask(${ri},${ti})">✕</button>
+                </div>
+            `).join('');
+
+                const card = document.createElement('div');
+                card.className = `client-card status-${client.status}`;
+                card.innerHTML = `
+                <div class="card-top">
+                    <div class="client-info">
+                        <div class="client-name">${client.name}</div>
+                        <div class="client-industry">${client.industry || '—'} ${client.owner ? '· ' + client.owner : ''}</div>
+                        <div class="client-services">${(client.services || []).map(s => `<span class="svc-tag">${s}</span>`).join('')}</div>
+                    </div>
+                    <span class="status-badge ${badgeClass}">${statusLabel}</span>
+                </div>
+                <div class="card-progress">
+                    <div class="progress-info">
+                        <span class="pi-label">Tasks hoàn thành</span>
+                        <span class="pi-val">${done}/${tasks.length} (${pct}%)</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+                </div>
+                <div class="card-tasks">
+                    <div class="tasks-header">
+                        <span>📌 Tasks</span>
+                        <button class="add-task-sm" onclick="showAddTask(${ri})">+ Thêm</button>
+                    </div>
+                    <div id="tasks_${ri}">${taskItems || '<div style="color:var(--gray);font-size:.8rem;padding:.3rem 0;">Chưa có task – nhấn + Thêm</div>'}</div>
+                    <input class="task-input-sm" id="taskInput_${ri}" type="text" placeholder="Nhập task rồi Enter..." style="display:none"
+                        onkeydown="if(event.key==='Enter')addTask(${ri}); if(event.key==='Escape')this.style.display='none'">
+                </div>
+                <div class="card-foot">
+                    <div class="card-meta">${client.deadline ? '⏱ ' + client.deadline : (client.note || '')}</div>
+                    <div class="card-actions">
+                        <button class="btn-sm" onclick="editClient(${ri})">✏️ Sửa</button>
+                        <button class="btn-sm danger" onclick="deleteClient(${ri})">🗑</button>
+                    </div>
+                </div>
+            `;
+                grid.appendChild(card);
+            });
+            updateSummary();
+        }
+
+        function updateSummary() {
+            document.getElementById('s_total').textContent = clients.length;
+            document.getElementById('s_active').textContent = clients.filter(c => c.status === 'active').length;
+            document.getElementById('s_done').textContent = clients.filter(c => c.status === 'done').length;
+            const pending = clients.reduce((s, c) => s + (c.tasks || []).filter(t => !t.done).length, 0);
+            document.getElementById('s_tasks').textContent = pending;
+        }
+
+        function showAddTask(ri) {
+            const inp = document.getElementById('taskInput_' + ri);
+            inp.style.display = inp.style.display === 'none' ? 'block' : 'none';
+            if (inp.style.display === 'block') inp.focus();
+        }
+
+        function addTask(ri) {
+            const inp = document.getElementById('taskInput_' + ri);
+            const txt = inp.value.trim();
+            if (!txt) return;
+            if (!clients[ri].tasks) clients[ri].tasks = [];
+            clients[ri].tasks.push({ text: txt, done: false });
+            save(); renderClients();
+        }
+
+        function toggleTask(ri, ti) {
+            clients[ri].tasks[ti].done = !clients[ri].tasks[ti].done;
+            save(); renderClients();
+        }
+
+        function deleteTask(ri, ti) {
+            clients[ri].tasks.splice(ti, 1);
+            save(); renderClients();
+        }
+
+        function deleteClient(ri) {
+            if (!confirm(`Xóa client "${clients[ri].name}"?`)) return;
+            clients.splice(ri, 1);
+            save(); renderClients();
+        }
+
+        function openModal(prefill = null) {
+            editIndex = -1;
+            document.getElementById('m_name').value = '';
+            document.getElementById('m_industry').value = '';
+            document.getElementById('m_status').value = 'active';
+            document.getElementById('m_owner').value = '';
+            document.getElementById('m_deadline').value = '';
+            document.getElementById('m_note').value = '';
+            document.querySelectorAll('#m_services .check-label').forEach(lbl => {
+                lbl.classList.remove('checked');
+                lbl.querySelector('input').checked = false;
+            });
+            document.getElementById('modalTitle').textContent = '➕ Thêm Client Mới';
+            if (prefill) {
+                document.getElementById('m_name').value = prefill.name || '';
+                document.getElementById('m_industry').value = prefill.industry || '';
+                document.getElementById('m_status').value = prefill.status || 'active';
+                document.getElementById('m_owner').value = prefill.owner || '';
+                document.getElementById('m_deadline').value = prefill.deadline || '';
+                document.getElementById('m_note').value = prefill.note || '';
+                (prefill.services || []).forEach(sv => {
+                    const inp = [...document.querySelectorAll('#m_services input')].find(i => i.value === sv);
+                    if (inp) { inp.checked = true; inp.closest('.check-label').classList.add('checked'); }
+                });
+            }
+            document.getElementById('modalOverlay').classList.add('open');
+            setTimeout(() => document.getElementById('m_name').focus(), 100);
+        }
+
+        function editClient(ri) {
+            openModal(clients[ri]);
+            editIndex = ri;
+            document.getElementById('modalTitle').textContent = '✏️ Sửa Client';
+        }
+
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+        document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+        function saveClient() {
+            const name = document.getElementById('m_name').value.trim();
+            if (!name) { alert('Vui lòng nhập tên khách hàng!'); return; }
+            const services = [...document.querySelectorAll('#m_services input:checked')].map(i => i.value);
+            const client = {
+                name,
+                industry: document.getElementById('m_industry').value.trim(),
+                status: document.getElementById('m_status').value,
+                services,
+                owner: document.getElementById('m_owner').value.trim(),
+                deadline: document.getElementById('m_deadline').value.trim(),
+                note: document.getElementById('m_note').value.trim(),
+                tasks: editIndex >= 0 ? (clients[editIndex].tasks || []) : [],
+                createdAt: editIndex >= 0 ? clients[editIndex].createdAt : new Date().toISOString(),
+            };
+            if (editIndex >= 0) clients[editIndex] = client;
+            else clients.unshift(client);
+            save(); closeModal(); renderClients();
+        }
+
+        renderClients();
+    </script>
+</body>
+
+</html>

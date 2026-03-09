@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Deploy – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --orange: #ff5c1a;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy), #1a2f5a);
+            padding: 1.25rem 5%;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .back {
+            color: rgba(255, 255, 255, .7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 5%;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: .5rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            font-size: .95rem;
+        }
+
+        /* ── PHASE ── */
+        .phase {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .07);
+            margin-bottom: 1.5rem;
+        }
+
+        .phase-hd {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .phase-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .phase-hd h2 {
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .phase-hd p {
+            font-size: .8rem;
+            color: var(--gray);
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--navy);
+            color: #fff;
+            font-size: .8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-body {}
+
+        .step-title {
+            font-size: .92rem;
+            font-weight: 700;
+            margin-bottom: .3rem;
+        }
+
+        .step-desc {
+            font-size: .85rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .step-desc a {
+            color: var(--orange);
+        }
+
+        /* Code inline */
+        code {
+            background: #1e293b;
+            color: #94d2bd;
+            padding: .15rem .5rem;
+            border-radius: 5px;
+            font-size: .82rem;
+            font-family: monospace;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin: .75rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: #94d2bd;
+            font-family: monospace;
+            font-size: .82rem;
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        /* Alert boxes */
+        .tip {
+            background: rgba(245, 166, 35, .1);
+            border-left: 4px solid var(--gold);
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-size: .87rem;
+            line-height: 1.6;
+        }
+
+        .tip strong {
+            display: block;
+            color: #b45309;
+            margin-bottom: .3rem;
+        }
+
+        .success {
+            background: rgba(34, 197, 94, .1);
+            border-left: 4px solid var(--green);
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-size: .87rem;
+        }
+
+        .success strong {
+            color: #16a34a;
+            display: block;
+            margin-bottom: .2rem;
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, .08);
+            border-left: 4px solid #ef4444;
+            border-radius: 0 12px 12px 0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-size: .87rem;
+        }
+
+        .warning strong {
+            color: #dc2626;
+            display: block;
+            margin-bottom: .2rem;
+        }
+
+        /* DNS table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+            margin: .75rem 0;
+        }
+
+        th {
+            background: var(--navy);
+            color: #fff;
+            padding: .65rem 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        td {
+            padding: .65rem 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        td code {
+            background: rgba(255, 92, 26, .08);
+            color: var(--orange);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Script card */
+        .script-card {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin-bottom: .75rem;
+            border: 1px solid var(--light);
+        }
+
+        .script-name {
+            font-size: .9rem;
+            font-weight: 700;
+            margin-bottom: .3rem;
+        }
+
+        .script-desc {
+            font-size: .82rem;
+            color: var(--gray);
+            margin-bottom: .6rem;
+        }
+
+        .script-file {
+            background: #1e293b;
+            color: #94d2bd;
+            padding: .3rem .75rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: .78rem;
+            display: inline-block;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .55rem 0;
+            border-bottom: 1px solid var(--bg);
+            font-size: .87rem;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span> · Deploy Guide</div>
+            <a class="back" href="agency-hub.html">← Hub</a>
+        </div>
+    </header>
+
+    <div class="page">
+        <h1>🚀 Hướng Dẫn Deploy Online</h1>
+        <p class="subtitle">Đưa TrueDigi Tools lên GitHub Pages → tools.truedigi.com (không cần lập trình)</p>
+
+        <!-- ── PHASE 1: GITHUB ── -->
+        <div class="phase">
+            <div class="phase-hd">
+                <div class="phase-num">1</div>
+                <div>
+                    <h2>Tạo Repo GitHub & Upload Files</h2>
+                    <p>~10 phút · Không cần Git · Chỉ cần browser</p>
+                </div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <div class="step-title">Tạo repo mới trên GitHub</div>
+                        <div class="step-desc">
+                            Vào <a href="https://github.com/new" target="_blank">github.com/new</a> (đăng nhập bằng tài
+                            khoản <code>nguyendanghoangmkt-maker</code>).<br>
+                            Đặt tên repo: <code>truedigi-tools</code> → Chọn <strong>Public</strong> → nhấn
+                            <strong>Create repository</strong>.
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <div class="step-title">Upload toàn bộ file HTML</div>
+                        <div class="step-desc">
+                            Trong trang repo vừa tạo → nhấn <strong>"uploading an existing file"</strong> hoặc
+                            <strong>"Add file → Upload files"</strong>.<br>
+                            Kéo thả toàn bộ files trong thư mục <code>G:\Other computers\My PC\D\truedigi\</code> vào
+                            đây.<br>
+                            <div class="tip"><strong>⚠️ Cần upload những file này:</strong>
+                                agency-hub.html, brief-nhanh.html, proposal-builder.html, client-tracker.html,
+                                bao-cao-thang.html, ai-content-plan.html, bao-gia-dao-tao-ai.html, CNAME, index.html,
+                                404.html<br><br>
+                                Và thư mục: <code>in nhanh/</code> (kéo cả thư mục vào)
+                            </div>
+                            Nhấn <strong>Commit changes</strong>.
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        <div class="step-title">Bật GitHub Pages</div>
+                        <div class="step-desc">
+                            Vào repo → <strong>Settings</strong> → thanh trái chọn <strong>Pages</strong>.<br>
+                            Phần <em>Source</em>: chọn <strong>Deploy from a branch</strong> → Branch:
+                            <strong>main</strong> → folder: <strong>/ (root)</strong> → Save.<br>
+                            <div class="success"><strong>✅ Sau 2-5 phút:</strong> URL sẽ là
+                                https://nguyendanghoangmkt-maker.github.io/truedigi-tools</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PHASE 2: CUSTOM DOMAIN ── -->
+        <div class="phase">
+            <div class="phase-hd">
+                <div class="phase-num">2</div>
+                <div>
+                    <h2>Gắn Domain tools.truedigi.com (Mắt Bão)</h2>
+                    <p>~5 phút · Cần đăng nhập Mắt Bão · Chờ 15-30 phút propagate</p>
+                </div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <div class="step-title">Thêm DNS record tại Mắt Bão</div>
+                        <div class="step-desc">
+                            Đăng nhập <a href="https://matbao.net" target="_blank">matbao.net</a> → Quản lý Tên Miền →
+                            truedigi.com → DNS Management.<br>
+                            Thêm record mới:
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Host/Name</th>
+                                        <th>Value/Target</th>
+                                        <th>TTL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>CNAME</code></td>
+                                        <td><code>tools</code></td>
+                                        <td><code>nguyendanghoangmkt-maker.github.io.</code></td>
+                                        <td>3600</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            Nhấn Save.
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <div class="step-title">Cấu hình GitHub Pages custom domain</div>
+                        <div class="step-desc">
+                            Quay lại GitHub → Settings → Pages → phần <strong>Custom domain</strong>.<br>
+                            Điền: <code>tools.truedigi.com</code> → Save.<br>
+                            Chờ DNS propagate (15–60 phút) → tick <strong>Enforce HTTPS</strong>.
+                            <div class="success"><strong>✅ Kết quả:</strong> https://tools.truedigi.com → Agency Hub
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PHASE 3: APPS SCRIPT ── -->
+        <div class="phase">
+            <div class="phase-hd">
+                <div class="phase-num">3</div>
+                <div>
+                    <h2>Cài 4 Automation Scripts (Google Apps Script)</h2>
+                    <p>Miễn phí · Chạy tự động trên Google Cloud</p>
+                </div>
+            </div>
+
+            <div class="tip"><strong>📌 Cách mở Apps Script:</strong>
+                Vào <a href="https://script.google.com" target="_blank">script.google.com</a> → New Project → đặt tên
+                "TrueDigi Automation" → paste code vào.</div>
+
+            <div class="script-card">
+                <div class="script-name">📧 Script 1: Gửi Báo Cáo Tháng</div>
+                <div class="script-desc">Nhận data từ bao-cao-thang.html → format email đẹp → gửi cho client</div>
+                <div class="script-file">apps-script/script1-email-report.gs</div>
+                <div class="tip" style="margin-top:.75rem"><strong>Setup:</strong> Paste code → chạy
+                    <code>menuSetup()</code> → Deploy → Web App → Copy URL → dán vào bao-cao-thang.html</div>
+            </div>
+
+            <div class="script-card">
+                <div class="script-name">🔔 Script 2: Nhắc Deadline Mỗi Sáng 8h</div>
+                <div class="script-desc">Mỗi sáng tự kiểm tra deadline, gửi email nhắc cho team & account phụ trách
+                </div>
+                <div class="script-file">apps-script/script2-deadline-reminder.gs</div>
+                <div class="tip" style="margin-top:.75rem"><strong>Setup:</strong> Đổi <code>NOTIFY_EMAIL</code> → chạy
+                    <code>menuSetupDeadlines()</code> → Triggers → Add: <em>checkDeadlines</em> → Day timer → 8AM</div>
+            </div>
+
+            <div class="script-card">
+                <div class="script-name">📊 Script 3: KPI Auto-Pull (GA4 + Meta Ads)</div>
+                <div class="script-desc">Mỗi sáng 7h kéo data từ GA4 và Facebook Ads về Google Sheets tự động</div>
+                <div class="script-file">apps-script/script3-kpi-pull.gs</div>
+                <div class="tip" style="margin-top:.75rem"><strong>Setup:</strong> Điền GA4 Property ID → Enable GA4
+                    Data API trong Google Cloud → <code>menuSetupKPI()</code> → Trigger: <em>pullKPIDaily</em> → 7AM
+                </div>
+            </div>
+
+            <div class="script-card">
+                <div class="script-name">🤖 Script 4: AI Content Plan (Gemini)</div>
+                <div class="script-desc">Đầu mỗi tháng tự generate content plan cho tất cả client → lưu vào Sheets</div>
+                <div class="script-file">apps-script/script4-ai-content.gs</div>
+                <div class="tip" style="margin-top:.75rem"><strong>Setup:</strong> API key đã điền sẵn →
+                    <code>menuSetupContent()</code> → <code>testGemini()</code> để test → Trigger:
+                    <em>autoGenerateMonthlyPlans</em> → Month timer → day 1</div>
+            </div>
+
+            <div class="success">
+                <strong>✅ Tool AI Content Plan HTML</strong>
+                File <code>ai-content-plan.html</code> đã có sẵn và hoạt động không cần Apps Script — mở file là dùng
+                được ngay, Gemini API key đã tích hợp sẵn.
+            </div>
+        </div>
+
+        <!-- ── CHECKLIST ── -->
+        <div class="phase">
+            <div class="phase-hd">
+                <div class="phase-num">✓</div>
+                <div>
+                    <h2>Checklist Toàn Bộ</h2>
+                    <p>Tick từng bước khi hoàn thành</p>
+                </div>
+            </div>
+            <ul class="checklist">
+                <li>Tạo repo <code>truedigi-tools</code> trên GitHub</li>
+                <li>Upload toàn bộ file HTML lên repo</li>
+                <li>Bật GitHub Pages → có URL github.io</li>
+                <li>Thêm CNAME record tại Mắt Bão</li>
+                <li>Set custom domain → tools.truedigi.com hoạt động</li>
+                <li>Tạo Apps Script project → paste Script 1</li>
+                <li>Deploy Script 1 → Web App URL</li>
+                <li>Cài Script 2 → Set time trigger 8AM</li>
+                <li>Test <code>ai-content-plan.html</code> online</li>
+                <li>Cài Script 3 + Script 4 (tuỳ chọn, sau cùng)</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>

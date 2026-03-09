@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueDigi – Agency Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--navy);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: rgba(15, 27, 53, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .date-chip {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: .35rem 1rem;
+            font-size: .8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .greeting {
+            font-size: .9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 5%;
+        }
+
+        /* ── KPI STRIP ── */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media(max-width:900px) {
+            .kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:500px) {
+            .kpi-strip {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 1.5rem;
+            transition: .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 0 18px 0 100%;
+            opacity: .15;
+        }
+
+        .kpi-card.c1::after {
+            background: var(--orange);
+        }
+
+        .kpi-card.c2::after {
+            background: var(--green);
+        }
+
+        .kpi-card.c3::after {
+            background: var(--blue);
+        }
+
+        .kpi-card.c4::after {
+            background: var(--gold);
+        }
+
+        .kpi-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .kpi-label {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: .5rem;
+        }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: .3rem;
+        }
+
+        .kpi-card.c1 .kpi-value {
+            color: var(--orange);
+        }
+
+        .kpi-card.c2 .kpi-value {
+            color: var(--green);
+        }
+
+        .kpi-card.c3 .kpi-value {
+            color: var(--blue);
+        }
+
+        .kpi-card.c4 .kpi-value {
+            color: var(--gold);
+        }
+
+        .kpi-input {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+            width: 100%;
+            outline: none;
+            cursor: text;
+        }
+
+        .kpi-card.c1 .kpi-input {
+            color: var(--orange);
+        }
+
+        .kpi-card.c2 .kpi-input {
+            color: var(--green);
+        }
+
+        .kpi-card.c3 .kpi-input {
+            color: var(--blue);
+        }
+
+        .kpi-card.c4 .kpi-input {
+            color: var(--gold);
+        }
+
+        .kpi-sub {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .kpi-hint {
+            font-size: .68rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: .2rem;
+            font-style: italic;
+        }
+
+        /* ── SECTION HEADERS ── */
+        .section-hd {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-hd h2 {
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .section-hd .line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ── TOOLS GRID ── */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 18px;
+            padding: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .25s;
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--tool-a), var(--tool-b));
+            opacity: 0;
+            transition: .3s;
+            border-radius: 18px;
+        }
+
+        .tool-card:hover::before {
+            opacity: .12;
+        }
+
+        .tool-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--tool-a), var(--tool-b));
+            flex-shrink: 0;
+        }
+
+        .tool-name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .tool-desc {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.5;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .68rem;
+            font-weight: 700;
+            padding: .25rem .65rem;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .badge-new {
+            background: rgba(255, 92, 26, 0.2);
+            color: var(--orange);
+            border: 1px solid rgba(255, 92, 26, 0.3);
+        }
+
+        .badge-core {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .badge-report {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .badge-ext {
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--gold);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+        }
+
+        /* ── QUICK LINKS ── */
+        .quicklinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: .75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .qlink {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: .85rem 1rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: .82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            transition: .2s;
+        }
+
+        .qlink:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .qlink .qi {
+            font-size: 1.1rem;
+        }
+
+        /* ── TASKS ── */
+        .tasks-panel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tasks-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .tasks-hd h3 {
+            font-size: .9rem;
+            font-weight: 800;
+        }
+
+        .add-task-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .4rem .9rem;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .2s;
+        }
+
+        .add-task-btn:hover {
+            background: var(--orange-light);
+        }
+
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .65rem 1rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid transparent;
+            transition: .2s;
+        }
+
+        .task-item:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .task-item.done {
+            opacity: .5;
+        }
+
+        .task-item.done .task-text {
+            text-decoration: line-through;
+        }
+
+        .task-cb {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .7rem;
+            transition: .2s;
+            background: none;
+            color: transparent;
+        }
+
+        .task-item.done .task-cb {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: .85rem;
+        }
+
+        .task-tag {
+            font-size: .67rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 10px;
+            background: rgba(255, 92, 26, 0.2);
+            color: var(--orange);
+        }
+
+        .task-del {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            font-size: .9rem;
+            padding: .2rem;
+            transition: .2s;
+        }
+
+        .task-del:hover {
+            color: var(--red);
+        }
+
+        .task-input-row {
+            display: flex;
+            gap: .5rem;
+            margin-top: .75rem;
+        }
+
+        .task-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: .55rem .9rem;
+            font-size: .85rem;
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .task-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .task-input:focus {
+            border-color: var(--orange);
+        }
+
+        .task-add-confirm {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .55rem 1rem;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: .78rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:600px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span></div>
+            <div class="header-right">
+                <div class="date-chip" id="dateChip"></div>
+                <div class="greeting" id="greeting"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page">
+
+        <!-- ── KPI STRIP ── -->
+        <div class="kpi-strip">
+            <div class="kpi-card c1">
+                <div class="kpi-label">Client Active</div>
+                <input class="kpi-input" id="kpi1" type="text" value="0" maxlength="5">
+                <div class="kpi-hint">Click để chỉnh sửa</div>
+            </div>
+            <div class="kpi-card c2">
+                <div class="kpi-label">Doanh Thu Tháng (tr.đ)</div>
+                <input class="kpi-input" id="kpi2" type="text" value="0" maxlength="8">
+                <div class="kpi-hint">Click để chỉnh sửa</div>
+            </div>
+            <div class="kpi-card c3">
+                <div class="kpi-label">Tasks Đang Chạy</div>
+                <div class="kpi-value" id="kpi3">0</div>
+                <div class="kpi-sub">tasks hôm nay chưa xong</div>
+            </div>
+            <div class="kpi-card c4">
+                <div class="kpi-label">Proposals Tháng Này</div>
+                <input class="kpi-input" id="kpi4" type="text" value="0" maxlength="5">
+                <div class="kpi-hint">Click để chỉnh sửa</div>
+            </div>
+        </div>
+
+        <!-- ── TOOLS GRID ── -->
+        <div class="section-hd">
+            <h2>🛠 Tools Nội Bộ</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="tools-grid">
+            <a class="tool-card" href="brief-nhanh.html" style="--tool-a:#ff5c1a;--tool-b:#f5a623">
+                <div class="tool-icon">📋</div>
+                <div class="tool-name">Brief Nhanh</div>
+                <div class="tool-desc">Nhận brief khách hàng → Auto tóm tắt scope + gợi ý gói</div>
+                <span class="tool-badge badge-core">⚡ Tiết kiệm 60-80%</span>
+            </a>
+
+            <a class="tool-card" href="proposal-builder.html" style="--tool-a:#8b5cf6;--tool-b:#6d28d9">
+                <div class="tool-icon">💰</div>
+                <div class="tool-name">Proposal Builder</div>
+                <div class="tool-desc">Chọn dịch vụ → Generate báo giá đẹp, sẵn gửi khách</div>
+                <span class="tool-badge badge-new">🔥 Giảm 70-80% thời gian</span>
+            </a>
+
+            <a class="tool-card" href="client-tracker.html" style="--tool-a:#3b82f6;--tool-b:#1d4ed8">
+                <div class="tool-icon">📊</div>
+                <div class="tool-name">Client Tracker</div>
+                <div class="tool-desc">Quản lý tiến độ nhiều client, deadline, người phụ trách</div>
+                <span class="tool-badge badge-report">📌 Visibility 100%</span>
+            </a>
+
+            <a class="tool-card" href="bao-cao-thang.html" style="--tool-a:#22c55e;--tool-b:#15803d">
+                <div class="tool-icon">📈</div>
+                <div class="tool-name">Báo Cáo Tháng</div>
+                <div class="tool-desc">Điền số liệu → Xuất báo cáo chuyên nghiệp gửi client</div>
+                <span class="tool-badge badge-core">⚡ Tiết kiệm 60-70%</span>
+            </a>
+
+            <a class="tool-card" href="in nhanh/tro-ly-trien-khai.html" style="--tool-a:#f59e0b;--tool-b:#d97706">
+                <div class="tool-icon">🚀</div>
+                <div class="tool-name">Trợ Lý Triển Khai</div>
+                <div class="tool-desc">Checklist triển khai website InNhanh từng bước</div>
+                <span class="tool-badge badge-ext">🔗 InNhanh.vn</span>
+            </a>
+
+            <a class="tool-card" href="ai-content-plan.html" style="--tool-a:#8b5cf6;--tool-b:#6d28d9">
+                <div class="tool-icon">🤖</div>
+                <div class="tool-name">AI Content Plan</div>
+                <div class="tool-desc">Gemini AI tạo lịch content 30 ngày chi tiết trong vài giây</div>
+                <span class="tool-badge badge-new">✨ Powered by Gemini</span>
+            </a>
+
+            <a class="tool-card" href="bao-gia-dao-tao-ai.html" style="--tool-a:#06b6d4;--tool-b:#0e7490">
+                <div class="tool-icon">🎓</div>
+                <div class="tool-name">Báo Giá AI Training</div>
+                <div class="tool-desc">Proposal đào tạo AI cho doanh nghiệp (3 gói)</div>
+                <span class="tool-badge badge-ext">📄 Template</span>
+            </a>
+        </div>
+
+        <!-- ── QUICK LINKS ── -->
+        <div class="section-hd">
+            <h2>🔗 Quick Links</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="quicklinks-grid">
+            <a class="qlink" href="https://drive.google.com" target="_blank"><span class="qi">📁</span> Google Drive</a>
+            <a class="qlink" href="https://analytics.google.com" target="_blank"><span class="qi">📊</span> GA4</a>
+            <a class="qlink" href="https://business.facebook.com" target="_blank"><span class="qi">📘</span> Meta
+                Ads</a>
+            <a class="qlink" href="https://ads.google.com" target="_blank"><span class="qi">🎯</span> Google Ads</a>
+            <a class="qlink" href="https://looker.google.com" target="_blank"><span class="qi">🔍</span> Looker
+                Studio</a>
+            <a class="qlink" href="https://notion.so" target="_blank"><span class="qi">📝</span> Notion</a>
+            <a class="qlink" href="https://search.google.com/search-console" target="_blank"><span class="qi">🔎</span>
+                Search Console</a>
+            <a class="qlink" href="https://zalo.me" target="_blank"><span class="qi">💬</span> Zalo</a>
+            <a class="qlink" href="https://mail.google.com" target="_blank"><span class="qi">📧</span> Gmail</a>
+            <a class="qlink" href="https://calendar.google.com" target="_blank"><span class="qi">📅</span> Calendar</a>
+        </div>
+
+        <!-- ── TODAY'S TASKS ── -->
+        <div class="section-hd">
+            <h2>✅ Tasks Hôm Nay</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="tasks-panel">
+            <div class="tasks-hd">
+                <h3>Danh sách công việc <span id="taskCountLabel"
+                        style="color:rgba(255,255,255,0.4);font-weight:500;font-size:.8rem;"></span></h3>
+                <button class="add-task-btn" onclick="showTaskInput()">+ Thêm việc</button>
+            </div>
+            <ul class="task-list" id="taskList"></ul>
+            <div class="task-input-row" id="taskInputRow" style="display:none;">
+                <input class="task-input" id="taskInput" type="text" placeholder="Nhập công việc cần làm..."
+                    maxlength="120">
+                <button class="task-add-confirm" onclick="addTask()">Thêm</button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        TrueDigi Agency Hub &nbsp;·&nbsp; Internal Use Only &nbsp;·&nbsp; Dữ liệu lưu trên trình duyệt này
+    </footer>
+
+    <script>
+        // ── DATE & GREETING ──
+        const now = new Date();
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        const months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        document.getElementById('dateChip').textContent = `${days[now.getDay()]} · ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+        const h = now.getHours();
+        const greet = h < 12 ? '☀️ Chào buổi sáng!' : h < 18 ? '⚡ Năng suất buổi chiều!' : '🌙 Làm tốt hôm nay!';
+        document.getElementById('greeting').textContent = greet;
+
+        // ── KPI PERSISTENCE ──
+        ['kpi1', 'kpi2', 'kpi4'].forEach(id => {
+            const el = document.getElementById(id);
+            const saved = localStorage.getItem('hub_' + id);
+            if (saved !== null) el.value = saved;
+            el.addEventListener('input', () => localStorage.setItem('hub_' + id, el.value));
+        });
+
+        // ── TASKS ──
+        let tasks = JSON.parse(localStorage.getItem('hub_tasks') || '[]');
+
+        function saveTasks() {
+            localStorage.setItem('hub_tasks', JSON.stringify(tasks));
+            updateKpi3();
+        }
+
+        function updateKpi3() {
+            const pending = tasks.filter(t => !t.done).length;
+            document.getElementById('kpi3').textContent = pending;
+            const total = tasks.length;
+            document.getElementById('taskCountLabel').textContent = total > 0 ? `(${tasks.filter(t => t.done).length}/${total} xong)` : '';
+        }
+
+        function renderTasks() {
+            const ul = document.getElementById('taskList');
+            ul.innerHTML = '';
+            if (tasks.length === 0) {
+                ul.innerHTML = '<li style="color:rgba(255,255,255,0.3);font-size:.85rem;padding:.5rem 0;text-align:center;">Chưa có task nào – Thêm việc cần làm hôm nay!</li>';
+            }
+            tasks.forEach((t, i) => {
+                const li = document.createElement('li');
+                li.className = 'task-item' + (t.done ? ' done' : '');
+                li.innerHTML = `
+                    <button class="task-cb" onclick="toggleTask(${i})">${t.done ? '✓' : ''}</button>
+                    <span class="task-text">${t.text}</span>
+                    <button class="task-del" onclick="deleteTask(${i})">✕</button>
+                `;
+                ul.appendChild(li);
+            });
+            updateKpi3();
+        }
+
+        function toggleTask(i) {
+            tasks[i].done = !tasks[i].done;
+            saveTasks();
+            renderTasks();
+        }
+
+        function deleteTask(i) {
+            tasks.splice(i, 1);
+            saveTasks();
+            renderTasks();
+        }
+
+        function showTaskInput() {
+            const row = document.getElementById('taskInputRow');
+            row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+            if (row.style.display === 'flex') document.getElementById('taskInput').focus();
+        }
+
+        function addTask() {
+            const inp = document.getElementById('taskInput');
+            const txt = inp.value.trim();
+            if (!txt) return;
+            tasks.unshift({ text: txt, done: false });
+            inp.value = '';
+            document.getElementById('taskInputRow').style.display = 'none';
+            saveTasks();
+            renderTasks();
+        }
+
+        document.getElementById('taskInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') addTask();
+            if (e.key === 'Escape') document.getElementById('taskInputRow').style.display = 'none';
+        });
+
+        renderTasks();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 – TrueDigi Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: #0f1b35;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .wrap {
+            max-width: 500px;
+        }
+
+        .code {
+            font-size: 6rem;
+            font-weight: 900;
+            color: #ff5c1a;
+            line-height: 1;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin: 1rem 0 .5rem;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+        }
+
+        a {
+            display: inline-block;
+            background: #ff5c1a;
+            color: #fff;
+            padding: .75rem 2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        a:hover {
+            background: #ff7a3d;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="code">404</div>
+        <h1>Không tìm thấy trang</h1>
+        <p>Trang bạn tìm không tồn tại hoặc đã bị di chuyển.</p>
+        <a href="/agency-hub.html">← Về Agency Hub</a>
+    </div>
+    <script>
+        // GitHub Pages SPA redirect hack
+        const path = sessionStorage.getItem('redirect');
+        if (path) { sessionStorage.removeItem('redirect'); history.replaceState(null, null, path); }
+    </script>
+</body>
+
+</html>

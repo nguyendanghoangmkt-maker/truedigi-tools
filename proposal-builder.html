@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Builder – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 1.25rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        /* ── LAYOUT ── */
+        .builder {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media(max-width:900px) {
+            .builder {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── SIDEBAR FORM ── */
+        .build-panel {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+        }
+
+        .panel-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-section h3 {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .form-row {
+            margin-bottom: .85rem;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: .3rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: .65rem .9rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: .88rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        /* Services checklist */
+        .svc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            padding: .65rem .85rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            margin-bottom: .5rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .svc-item.selected {
+            border-color: var(--orange);
+            background: rgba(255, 92, 26, 0.05);
+        }
+
+        .svc-left {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        .svc-left input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--orange);
+            cursor: pointer;
+        }
+
+        .svc-name {
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+        .svc-price-input {
+            width: 105px;
+            padding: .3rem .5rem;
+            border: 1px solid var(--light);
+            border-radius: 8px;
+            font-size: .8rem;
+            font-family: inherit;
+            text-align: right;
+            background: #fff;
+            color: var(--navy);
+            outline: none;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: .9rem;
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 6px 20px rgba(255, 92, 26, 0.3);
+            transition: .25s;
+            margin-top: .5rem;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 92, 26, 0.4);
+        }
+
+        /* ── PREVIEW ── */
+        .preview-wrap {
+            position: relative;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: .75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-print,
+        .btn-copy-link {
+            padding: .6rem 1.25rem;
+            border-radius: 10px;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            transition: .2s;
+        }
+
+        .btn-print {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-print:hover {
+            background: var(--navy2);
+        }
+
+        .btn-copy-link {
+            background: var(--bg);
+            color: var(--navy);
+            border: 2px solid var(--light);
+        }
+
+        .btn-copy-link:hover {
+            border-color: var(--navy);
+        }
+
+        /* ── PROPOSAL DOCUMENT ── */
+        .proposal {
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .prop-header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 2.5rem 2.5rem 2rem;
+            color: #fff;
+        }
+
+        .prop-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: .25rem;
+        }
+
+        .prop-logo span {
+            color: var(--orange);
+        }
+
+        .prop-tagline {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .prop-title {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: .5rem;
+        }
+
+        .prop-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: .9rem;
+        }
+
+        .prop-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: .4rem .85rem;
+            font-size: .75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .meta-item strong {
+            color: #fff;
+        }
+
+        .prop-body {
+            padding: 2rem 2.5rem;
+        }
+
+        .prop-section {
+            margin-bottom: 2rem;
+        }
+
+        .prop-section-title {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .prop-client-info {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .prop-client-info .client-name {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: .25rem;
+        }
+
+        .prop-client-info .client-sub {
+            color: var(--gray);
+            font-size: .88rem;
+        }
+
+        /* Services table */
+        .svc-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .svc-table th {
+            background: var(--navy);
+            color: #fff;
+            text-align: left;
+            padding: .75rem 1rem;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .svc-table th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        .svc-table th:last-child {
+            border-radius: 0 10px 0 0;
+            text-align: right;
+        }
+
+        .svc-table td {
+            padding: .85rem 1rem;
+            border-bottom: 1px solid var(--light);
+            font-size: .88rem;
+        }
+
+        .svc-table td:last-child {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .svc-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .svc-table tr:hover td {
+            background: rgba(255, 92, 26, 0.03);
+        }
+
+        .svc-row-icon {
+            font-size: 1rem;
+            margin-right: .4rem;
+        }
+
+        .svc-row-name {
+            font-weight: 700;
+        }
+
+        .svc-row-desc {
+            font-size: .78rem;
+            color: var(--gray);
+            margin-top: .15rem;
+        }
+
+        /* Total */
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1rem;
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            border-radius: 12px;
+            margin-top: 1rem;
+            color: #fff;
+        }
+
+        .total-label {
+            font-size: .85rem;
+            opacity: .8;
+        }
+
+        .total-amount {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        /* Deliverables */
+        .deliverable-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: .75rem;
+        }
+
+        .deliv-item {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: .6rem;
+        }
+
+        .deliv-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .deliv-text {
+            font-size: .83rem;
+            font-weight: 600;
+        }
+
+        /* Terms */
+        .terms-list {
+            list-style: none;
+        }
+
+        .terms-list li {
+            display: flex;
+            gap: .6rem;
+            padding: .55rem 0;
+            border-bottom: 1px solid var(--light);
+            font-size: .86rem;
+        }
+
+        .terms-list li:last-child {
+            border-bottom: none;
+        }
+
+        .terms-list li::before {
+            content: '✓';
+            color: var(--green-dark);
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* Signature */
+        .sign-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .sign-box {
+            border-top: 2px solid var(--light);
+            padding-top: 1rem;
+        }
+
+        .sign-label {
+            font-size: .78rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+        }
+
+        .sign-name {
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .sign-company {
+            font-size: .8rem;
+            color: var(--gray);
+        }
+
+        .prop-footer {
+            background: var(--bg);
+            padding: 1.25rem 2.5rem;
+            border-top: 2px solid var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .78rem;
+            color: var(--gray);
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        /* Empty state */
+        .empty-preview {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+
+        .empty-preview .ep-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-preview h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            color: var(--navy);
+        }
+
+        .empty-preview p {
+            font-size: .85rem;
+        }
+
+        @media print {
+
+            header,
+            .back-btn,
+            .build-panel,
+            .preview-actions {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .builder {
+                display: block;
+                padding: 0;
+            }
+
+            .preview-wrap {
+                display: block;
+            }
+
+            .proposal {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span></div>
+            <a class="back-btn" href="agency-hub.html">← Hub</a>
+        </div>
+    </header>
+
+    <div class="builder">
+
+        <!-- ── BUILD PANEL ── -->
+        <div class="build-panel">
+
+            <div class="panel-section">
+                <h3>📋 Thông Tin Proposal</h3>
+                <div class="form-row">
+                    <label>Tên khách hàng *</label>
+                    <input type="text" id="p_client" placeholder="Công ty TNHH ABC" oninput="liveUpdate()">
+                </div>
+                <div class="form-row">
+                    <label>Ngành nghề</label>
+                    <input type="text" id="p_industry" placeholder="Bất động sản / F&B / TMĐT…" oninput="liveUpdate()">
+                </div>
+                <div class="form-row">
+                    <label>Người phụ trách (TrueDigi)</label>
+                    <input type="text" id="p_owner" placeholder="Tên Account" oninput="liveUpdate()">
+                </div>
+                <div class="form-row">
+                    <label>Ngày báo giá</label>
+                    <input type="text" id="p_date" oninput="liveUpdate()">
+                </div>
+                <div class="form-row">
+                    <label>Hiệu lực báo giá</label>
+                    <select id="p_valid" onchange="liveUpdate()">
+                        <option value="15 ngày">15 ngày</option>
+                        <option value="30 ngày" selected>30 ngày</option>
+                        <option value="45 ngày">45 ngày</option>
+                        <option value="60 ngày">60 ngày</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Thời hạn hợp đồng</label>
+                    <select id="p_contract" onchange="liveUpdate()">
+                        <option value="3 tháng">3 tháng</option>
+                        <option value="6 tháng" selected>6 tháng</option>
+                        <option value="12 tháng">12 tháng</option>
+                        <option value="Không giới hạn">Không giới hạn</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>🛠 Chọn Dịch Vụ & Giá (VNĐ/tháng)</h3>
+                <div id="serviceList">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>📝 Ghi Chú Thêm</h3>
+                <textarea id="p_note" placeholder="Điều khoản đặc biệt, combo giảm giá, ghi chú cho client…"
+                    oninput="liveUpdate()" rows="3"></textarea>
+            </div>
+
+            <button class="btn-generate" onclick="generateProposal()">⚡ Tạo Proposal</button>
+        </div>
+
+        <!-- ── PREVIEW ── -->
+        <div class="preview-wrap">
+            <div class="preview-actions" id="previewActions" style="display:none;">
+                <button class="btn-print" onclick="window.print()">🖨️ In / Lưu PDF</button>
+            </div>
+            <div id="proposalOutput">
+                <div class="proposal">
+                    <div class="empty-preview">
+                        <div class="ep-icon">💰</div>
+                        <h3>Preview Proposal</h3>
+                        <p>Điền thông tin & chọn dịch vụ bên trái, rồi nhấn <strong>Tạo Proposal</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SERVICES = [
+            { icon: '🔍', key: 'seo', name: 'SEO Tổng Thể', desc: 'Audit, từ khóa, on-page, link building, báo cáo tháng', default: 8000000 },
+            { icon: '📘', key: 'fb', name: 'Facebook & Instagram Ads', desc: 'Setup, tối ưu, báo cáo hiệu quả quảng cáo', default: 5000000 },
+            { icon: '🎯', key: 'gg', name: 'Google Ads', desc: 'Search, Display, remarketing, G Analytics', default: 5000000 },
+            { icon: '✍️', key: 'content', name: 'Content Marketing', desc: 'Blog, bài viết chuẩn SEO, content plan tháng', default: 6000000 },
+            { icon: '📱', key: 'social', name: 'Social Media Organic', desc: 'Lên lịch, viết caption, thiết kế hình ảnh', default: 5000000 },
+            { icon: '🌐', key: 'web', name: 'Quản Trị Website', desc: 'Update, backup, tốc độ, security, hỗ trợ kỹ thuật', default: 3000000 },
+            { icon: '📧', key: 'email', name: 'Email Marketing', desc: 'Thiết kế template, chiến dịch, phân tích open rate', default: 3000000 },
+            { icon: '📊', key: 'report', name: 'Báo Cáo Chuyên Sâu', desc: 'Dashboard, phân tích dữ liệu, insight hàng tháng', default: 4000000 },
+            { icon: '🤖', key: 'ai', name: 'Đào Tạo AI Doanh Nghiệp', desc: 'Workshop, custom GPT, automation workflow', default: 15000000 },
+            { icon: '🎬', key: 'video', name: 'Video & TikTok Ads', desc: 'Script, production, chạy quảng cáo video', default: 8000000 },
+        ];
+
+        function fmt(n) { return Number(n).toLocaleString('vi-VN') + 'đ'; }
+
+        // Render service list
+        const svcList = document.getElementById('serviceList');
+        SERVICES.forEach(svc => {
+            const div = document.createElement('div');
+            div.className = 'svc-item';
+            div.id = 'svc_wrap_' + svc.key;
+            div.innerHTML = `
+            <div class="svc-left">
+                <input type="checkbox" id="svc_${svc.key}" onchange="toggleSvc('${svc.key}',this)">
+                <div>
+                    <div class="svc-name">${svc.icon} ${svc.name}</div>
+                </div>
+            </div>
+            <input class="svc-price-input" type="number" id="price_${svc.key}" value="${svc.default}" min="0" step="500000" style="display:none" oninput="liveUpdate()">
+        `;
+            div.querySelector('label')?.addEventListener('click', e => e.stopPropagation());
+            div.addEventListener('click', (e) => {
+                if (e.target.tagName === 'INPUT') return;
+                const cb = document.getElementById('svc_' + svc.key);
+                cb.checked = !cb.checked;
+                toggleSvc(svc.key, cb);
+            });
+            svcList.appendChild(div);
+        });
+
+        function toggleSvc(key, cbEl) {
+            const wrap = document.getElementById('svc_wrap_' + key);
+            const priceInput = document.getElementById('price_' + key);
+            if (cbEl.checked) {
+                wrap.classList.add('selected');
+                priceInput.style.display = 'block';
+            } else {
+                wrap.classList.remove('selected');
+                priceInput.style.display = 'none';
+            }
+            liveUpdate();
+        }
+
+        // Date default
+        const today = new Date();
+        document.getElementById('p_date').value = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+        function getSelected() {
+            return SERVICES.filter(s => document.getElementById('svc_' + s.key)?.checked)
+                .map(s => ({ ...s, price: Number(document.getElementById('price_' + s.key).value) }));
+        }
+
+        function liveUpdate() { /* Real-time updates handled on generate */ }
+
+        function generateProposal() {
+            const client = document.getElementById('p_client').value.trim() || 'Khách Hàng';
+            const industry = document.getElementById('p_industry').value.trim();
+            const owner = document.getElementById('p_owner').value.trim() || 'TrueDigi Team';
+            const date = document.getElementById('p_date').value;
+            const valid = document.getElementById('p_valid').value;
+            const contract = document.getElementById('p_contract').value;
+            const note = document.getElementById('p_note').value.trim();
+            const selected = getSelected();
+            const total = selected.reduce((s, sv) => s + sv.price, 0);
+
+            if (selected.length === 0) { alert('Vui lòng chọn ít nhất 1 dịch vụ!'); return; }
+
+            const svcRows = selected.map(sv => `
+            <tr>
+                <td>
+                    <div class="svc-row-name">${sv.icon} ${sv.name}</div>
+                    <div class="svc-row-desc">${sv.desc}</div>
+                </td>
+                <td>1 tháng</td>
+                <td>${fmt(sv.price)}</td>
+            </tr>
+        `).join('');
+
+            const deliverables = selected.flatMap(sv => {
+                const map = {
+                    seo: ['📄 Báo cáo SEO hàng tháng', '🔑 Danh sách từ khóa target'],
+                    fb: ['📊 Báo cáo Ads hàng tháng', '🎨 Creative gợi ý'],
+                    gg: ['🎯 Dashboard Google Ads', '📈 Phân tích chi phí/chuyển đổi'],
+                    content: ['✍️ Bài viết blog hàng tháng', '📋 Content calendar'],
+                    social: ['📅 Lịch đăng bài tuần', '🖼️ File thiết kế hình ảnh'],
+                    web: ['🔒 Backup website định kỳ', '⚡ Báo cáo tốc độ/uptime'],
+                    email: ['📧 Template email thiết kế', '📊 Báo cáo chiến dịch'],
+                    report: ['📊 Dashboard tùy chỉnh', '💡 Insight & đề xuất'],
+                    ai: ['🤖 Custom GPT riêng', '📚 Tài liệu + video'],
+                    video: ['🎬 Video content hàng tháng', '📱 Report TikTok'],
+                };
+                return map[sv.key] || [];
+            });
+
+            const uniqueDelivs = [...new Set(deliverables)].slice(0, 8);
+
+            const html = `
+            <div class="proposal">
+                <div class="prop-header">
+                    <div class="prop-logo">True<span>Digi</span></div>
+                    <div class="prop-tagline">Digital Marketing Agency · truedigi.com</div>
+                    <div class="prop-title">BÁO GIÁ DỊCH VỤ<br>MARKETING ONLINE</div>
+                    <div class="prop-subtitle">Đề xuất dịch vụ cho ${client}${industry ? ' · ' + industry : ''}</div>
+                    <div class="prop-meta">
+                        <div class="meta-item"><strong>Ngày:</strong> ${date}</div>
+                        <div class="meta-item"><strong>Hiệu lực:</strong> ${valid}</div>
+                        <div class="meta-item"><strong>Hợp đồng:</strong> ${contract}</div>
+                        <div class="meta-item"><strong>Phụ trách:</strong> ${owner}</div>
+                    </div>
+                </div>
+
+                <div class="prop-body">
+
+                    <div class="prop-section">
+                        <div class="prop-section-title">👤 Dành Cho Khách Hàng</div>
+                        <div class="prop-client-info">
+                            <div class="client-name">${client}</div>
+                            <div class="client-sub">${industry || 'Doanh nghiệp'} · Hợp đồng ${contract}</div>
+                        </div>
+                    </div>
+
+                    <div class="prop-section">
+                        <div class="prop-section-title">💼 Gói Dịch Vụ Đề Xuất</div>
+                        <table class="svc-table">
+                            <thead>
+                                <tr><th>Dịch Vụ</th><th>Chu Kỳ</th><th>Đơn Giá</th></tr>
+                            </thead>
+                            <tbody>${svcRows}</tbody>
+                        </table>
+                        <div class="total-row">
+                            <span class="total-label">Tổng / Tháng</span>
+                            <span class="total-amount">${fmt(total)}</span>
+                        </div>
+                        ${total >= 10000000 ? `<p style="text-align:right;margin-top:.5rem;font-size:.78rem;color:var(--gray);">Ưu đãi: Thanh toán 3 tháng giảm 5% · 6 tháng giảm 10%</p>` : ''}
+                    </div>
+
+                    ${uniqueDelivs.length ? `
+                    <div class="prop-section">
+                        <div class="prop-section-title">📦 Deliverables Hàng Tháng</div>
+                        <div class="deliverable-grid">
+                            ${uniqueDelivs.map(d => `<div class="deliv-item"><span class="deliv-icon">${d.split(' ')[0]}</span><span class="deliv-text">${d.substring(d.indexOf(' ') + 1)}</span></div>`).join('')}
+                        </div>
+                    </div>` : ''}
+
+                    <div class="prop-section">
+                        <div class="prop-section-title">📜 Điều Khoản & Cam Kết</div>
+                        <ul class="terms-list">
+                            <li>Thanh toán: 100% trước khi triển khai (hoặc theo thỏa thuận)</li>
+                            <li>Báo cáo định kỳ hàng tháng và họp review 1 lần/tháng</li>
+                            <li>Hỗ trợ kỹ thuật qua Zalo/Email trong giờ hành chính</li>
+                            <li>Thay đổi scope cần xác nhận bằng văn bản ít nhất 7 ngày trước</li>
+                            <li>Chấm dứt hợp đồng: thông báo trước ${contract === '3 tháng' ? '30' : '30'} ngày</li>
+                            <li>Bảo mật thông tin khách hàng theo chính sách TrueDigi</li>
+                            ${note ? `<li>${note}</li>` : ''}
+                        </ul>
+                    </div>
+
+                    <div class="sign-row">
+                        <div class="sign-box">
+                            <div class="sign-label">Đại diện khách hàng (Ký & đóng dấu)</div>
+                            <div class="sign-name">${client}</div>
+                            <div class="sign-company">Ngày: ___/___/______</div>
+                        </div>
+                        <div class="sign-box">
+                            <div class="sign-label">Đại diện TrueDigi (Ký & đóng dấu)</div>
+                            <div class="sign-name">TrueDigi Agency</div>
+                            <div class="sign-company">Phụ trách: ${owner}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prop-footer">
+                    <span>TrueDigi · truedigi.com</span>
+                    <span>Báo giá có hiệu lực ${valid} kể từ ngày ${date}</span>
+                </div>
+            </div>
+        `;
+
+            document.getElementById('proposalOutput').innerHTML = html;
+            document.getElementById('previewActions').style.display = 'flex';
+            if (window.innerWidth <= 900) {
+                document.getElementById('proposalOutput').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+
+</html>

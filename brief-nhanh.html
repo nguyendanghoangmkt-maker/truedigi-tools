@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brief Nhanh – TrueDigi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f1b35;
+            --navy2: #1a2f5a;
+            --orange: #ff5c1a;
+            --orange-light: #ff7a3d;
+            --gold: #f5a623;
+            --bg: #f0f3f9;
+            --white: #fff;
+            --gray: #6b7280;
+            --light: #e4e9f5;
+            --green: #22c55e;
+            --green-dark: #16a34a;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--navy), var(--navy2));
+            padding: 1.25rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 5%;
+        }
+
+        .page-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: rgba(255, 92, 26, 0.1);
+            border: 1px solid rgba(255, 92, 26, 0.3);
+            color: var(--orange);
+            padding: .3rem .9rem;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: .5rem;
+        }
+
+        .page-hero p {
+            color: var(--gray);
+            font-size: .95rem;
+        }
+
+        /* ── FORM CARD ── */
+        .form-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-card h2 {
+            font-size: .8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 1.25rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media(max-width:640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+
+        .form-group.full {
+            grid-column: 1/-1;
+        }
+
+        label {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        label span {
+            color: var(--red);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: .75rem 1rem;
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            font-size: .9rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--bg);
+            outline: none;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--orange);
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Checkbox group */
+        .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg);
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            padding: .4rem .85rem;
+            transition: .2s;
+        }
+
+        .check-label input {
+            display: none;
+        }
+
+        .check-label.checked {
+            background: rgba(255, 92, 26, 0.08);
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        /* ── SUBMIT ── */
+        .submit-row {
+            display: flex;
+            justify-content: center;
+            margin-top: .5rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: .9rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: .25s;
+            box-shadow: 0 8px 24px rgba(255, 92, 26, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 92, 26, 0.4);
+        }
+
+        /* ── RESULT ── */
+        .result-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            display: none;
+            animation: fadeIn .4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .result-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .result-hd h2 {
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: .75rem;
+        }
+
+        .btn-copy,
+        .btn-reset {
+            padding: .5rem 1.1rem;
+            border-radius: 10px;
+            font-size: .82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            transition: .2s;
+        }
+
+        .btn-copy {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            background: var(--navy2);
+        }
+
+        .btn-reset {
+            background: var(--bg);
+            color: var(--gray);
+            border: 2px solid var(--light);
+        }
+
+        .btn-reset:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        .result-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .result-section h3 {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: .75rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: .75rem;
+        }
+
+        .info-item {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: .85rem 1rem;
+        }
+
+        .info-item .lbl {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-item .val {
+            font-size: .95rem;
+            font-weight: 700;
+            margin-top: .2rem;
+        }
+
+        .scope-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .scope-tag {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--purple);
+            border-radius: 8px;
+            padding: .3rem .75rem;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+        .pkg-recommend {
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            color: #fff;
+        }
+
+        .pkg-recommend .pkg-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-bottom: .25rem;
+        }
+
+        .pkg-recommend .pkg-why {
+            font-size: .85rem;
+            opacity: .9;
+        }
+
+        .flags-list {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+
+        .flag-item {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            background: rgba(239, 68, 68, 0.07);
+            border-left: 3px solid var(--red);
+            border-radius: 0 10px 10px 0;
+            padding: .6rem 1rem;
+            font-size: .85rem;
+        }
+
+        .estimate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: .75rem;
+        }
+
+        .est-item {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .est-item .est-val {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .est-item .est-lbl {
+            font-size: .72rem;
+            color: var(--gray);
+            font-weight: 500;
+            margin-top: .2rem;
+        }
+
+        pre#summaryText {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">True<span>Digi</span></div>
+            <a class="back-btn" href="agency-hub.html">← Hub</a>
+        </div>
+    </header>
+
+    <div class="page">
+        <div class="page-hero">
+            <div class="page-badge">📋 BRIEF NHANH</div>
+            <h1>Nhận Brief Khách Hàng</h1>
+            <p>Điền thông tin → Auto phân tích & gợi ý gói dịch vụ phù hợp</p>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card" id="formSection">
+            <h2>🏢 Thông Tin Khách Hàng</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tên công ty / khách hàng <span>*</span></label>
+                    <input type="text" id="f_name" placeholder="VD: Công ty TNHH ABC">
+                </div>
+                <div class="form-group">
+                    <label>Ngành nghề <span>*</span></label>
+                    <select id="f_industry">
+                        <option value="">— Chọn ngành —</option>
+                        <option>Bất động sản</option>
+                        <option>Thương mại điện tử / Bán lẻ</option>
+                        <option>Ẩm thực / F&B</option>
+                        <option>Làm đẹp / Spa / Thẩm mỹ</option>
+                        <option>Giáo dục / Đào tạo</option>
+                        <option>Y tế / Sức khỏe</option>
+                        <option>Công nghệ / SaaS</option>
+                        <option>Sản xuất / Công nghiệp</option>
+                        <option>Xây dựng / Vật liệu</option>
+                        <option>In ấn / Thiết kế</option>
+                        <option>Tư vấn / Dịch vụ B2B</option>
+                        <option>Khác</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Website hiện tại</label>
+                    <input type="text" id="f_website" placeholder="VD: abc.com (nếu có)">
+                </div>
+                <div class="form-group">
+                    <label>Quy mô doanh nghiệp</label>
+                    <select id="f_size">
+                        <option value="">— Chọn —</option>
+                        <option>Startup / Siêu nhỏ (1-5 người)</option>
+                        <option>Nhỏ (6-20 người)</option>
+                        <option>Vừa (21-100 người)</option>
+                        <option>Lớn (100+ người)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top:1.25rem;">
+                <h2>🎯 Mục Tiêu & Nhu Cầu</h2>
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Mục tiêu chính <span>*</span></label>
+                        <div class="check-group" id="goals">
+                            <label class="check-label"><input type="checkbox" value="Tăng traffic website"> 📈 Tăng
+                                traffic</label>
+                            <label class="check-label"><input type="checkbox" value="Tăng leads / khách hàng tiềm năng">
+                                🎯 Tăng leads</label>
+                            <label class="check-label"><input type="checkbox" value="Tăng doanh số bán hàng"> 💰 Tăng
+                                doanh số</label>
+                            <label class="check-label"><input type="checkbox" value="Xây dựng thương hiệu / nhận diện">
+                                🏆 Brand awareness</label>
+                            <label class="check-label"><input type="checkbox" value="Tăng tương tác mạng xã hội"> ❤️
+                                Social engagement</label>
+                            <label class="check-label"><input type="checkbox" value="Ra mắt sản phẩm / dịch vụ mới"> 🚀
+                                Ra mắt sản phẩm</label>
+                            <label class="check-label"><input type="checkbox" value="Cạnh tranh / đối phó đối thủ"> ⚔️
+                                Cạnh tranh</label>
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label>Kênh muốn triển khai <span>*</span></label>
+                        <div class="check-group" id="channels">
+                            <label class="check-label"><input type="checkbox" value="SEO"> 🔍 SEO</label>
+                            <label class="check-label"><input type="checkbox" value="Facebook / Instagram Ads"> 📘
+                                Facebook/IG Ads</label>
+                            <label class="check-label"><input type="checkbox" value="Google Ads"> 🎯 Google Ads</label>
+                            <label class="check-label"><input type="checkbox" value="Content Marketing"> ✍️
+                                Content</label>
+                            <label class="check-label"><input type="checkbox" value="Social Media Organic"> 📱 Social
+                                Organic</label>
+                            <label class="check-label"><input type="checkbox" value="Website / Landing Page"> 🌐
+                                Website</label>
+                            <label class="check-label"><input type="checkbox" value="Email Marketing"> 📧 Email</label>
+                            <label class="check-label"><input type="checkbox" value="TikTok Ads"> 🎵 TikTok</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngân sách marketing / tháng</label>
+                        <select id="f_budget">
+                            <option value="">— Chọn —</option>
+                            <option value="entry">Dưới 10 triệu</option>
+                            <option value="small">10 – 20 triệu</option>
+                            <option value="medium">20 – 50 triệu</option>
+                            <option value="large">50 – 100 triệu</option>
+                            <option value="enterprise">Trên 100 triệu</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Timeline mong muốn</label>
+                        <select id="f_timeline">
+                            <option value="">— Chọn —</option>
+                            <option value="urgent">Cấp bách (< 1 tháng)</option>
+                            <option value="normal">Bình thường (1-3 tháng)</option>
+                            <option value="longterm">Dài hạn (3-6 tháng)</option>
+                            <option value="strategic">Chiến lược (6+ tháng)</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>Đang làm marketing chưa? / Vấn đề hiện tại</label>
+                        <textarea id="f_current"
+                            placeholder="VD: Đang chạy FB ads nhưng chi phí cao, không convert. Chưa có website chuẩn SEO..."></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label>Đối thủ cạnh tranh chính</label>
+                        <input type="text" id="f_competitor" placeholder="VD: Công ty XYZ, website abc.vn...">
+                    </div>
+                    <div class="form-group">
+                        <label>Người phụ trách phía TrueDigi</label>
+                        <input type="text" id="f_owner" placeholder="Tên nhân sự phụ trách">
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày nhận brief</label>
+                        <input type="text" id="f_date" placeholder="VD: 09/03/2026">
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-row" style="margin-top:1.5rem;">
+                <button class="btn-submit" onclick="generateBrief()">⚡ Phân Tích & Tạo Brief Summary</button>
+            </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="result-card" id="resultCard">
+            <div class="result-hd">
+                <h2>📋 Brief Summary — <span id="r_name"></span></h2>
+                <div class="result-actions">
+                    <button class="btn-copy" onclick="copyBrief()">📋 Copy</button>
+                    <button class="btn-reset" onclick="resetBrief()">↩ Làm lại</button>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <h3>📁 Thông Tin Cơ Bản</h3>
+                <div class="info-grid" id="r_info"></div>
+            </div>
+
+            <div class="result-section">
+                <h3>🎯 Scope Công Việc</h3>
+                <div class="scope-tags" id="r_scope"></div>
+            </div>
+
+            <div class="result-section">
+                <h3>⏱ Ước Lượng Nguồn Lực</h3>
+                <div class="estimate-grid" id="r_estimate"></div>
+            </div>
+
+            <div class="result-section">
+                <h3>💡 Gợi Ý Gói Dịch Vụ</h3>
+                <div class="pkg-recommend" id="r_package"></div>
+            </div>
+
+            <div class="result-section" id="r_flags_section">
+                <h3>⚠️ Red Flags Cần Lưu Ý</h3>
+                <div class="flags-list" id="r_flags"></div>
+            </div>
+
+            <div class="result-section">
+                <h3>📝 Ghi Chú Thêm</h3>
+                <div style="background:var(--bg);border-radius:12px;padding:1rem;font-size:.88rem;line-height:1.7;"
+                    id="r_notes"></div>
+            </div>
+        </div>
+
+        <pre id="summaryText"></pre>
+    </div>
+
+    <script>
+        // Checkbox toggle style
+        document.querySelectorAll('.check-label').forEach(lbl => {
+            const cb = lbl.querySelector('input');
+            cb.addEventListener('change', () => {
+                lbl.classList.toggle('checked', cb.checked);
+            });
+        });
+
+        // Auto-fill today's date
+        const td = new Date();
+        document.getElementById('f_date').value = `${String(td.getDate()).padStart(2, '0')}/${String(td.getMonth() + 1).padStart(2, '0')}/${td.getFullYear()}`;
+
+        function getChecked(groupId) {
+            return [...document.querySelectorAll(`#${groupId} input:checked`)].map(c => c.value);
+        }
+
+        function generateBrief() {
+            const name = document.getElementById('f_name').value.trim();
+            const industry = document.getElementById('f_industry').value;
+            if (!name || !industry) { alert('Vui lòng nhập tên khách hàng và ngành nghề!'); return; }
+
+            const goals = getChecked('goals');
+            const channels = getChecked('channels');
+            const budget = document.getElementById('f_budget').value;
+            const timeline = document.getElementById('f_timeline').value;
+            const current = document.getElementById('f_current').value.trim();
+            const competitor = document.getElementById('f_competitor').value.trim();
+            const owner = document.getElementById('f_owner').value.trim();
+            const date = document.getElementById('f_date').value.trim();
+            const website = document.getElementById('f_website').value.trim();
+            const size = document.getElementById('f_size').value;
+
+            // ── INFO ──
+            const infoData = [
+                { lbl: 'Khách Hàng', val: name },
+                { lbl: 'Ngành', val: industry },
+                { lbl: 'Quy Mô', val: size || 'Chưa rõ' },
+                { lbl: 'Website', val: website || 'Chưa có' },
+                { lbl: 'Phụ Trách', val: owner || '—' },
+                { lbl: 'Ngày Brief', val: date },
+            ];
+            document.getElementById('r_name').textContent = name;
+            document.getElementById('r_info').innerHTML = infoData.map(i =>
+                `<div class="info-item"><div class="lbl">${i.lbl}</div><div class="val">${i.val}</div></div>`
+            ).join('');
+
+            // ── SCOPE ──
+            const allScope = [...(goals.length ? goals : []), ...(channels.length ? channels : [])];
+            document.getElementById('r_scope').innerHTML = allScope.length
+                ? allScope.map(s => `<span class="scope-tag">${s}</span>`).join('')
+                : '<span class="scope-tag">Chưa xác định – cần trao đổi thêm</span>';
+
+            // ── ESTIMATE ──
+            const hoursPerChannel = { 'SEO': 20, 'Facebook / Instagram Ads': 15, 'Google Ads': 12, 'Content Marketing': 18, 'Social Media Organic': 16, 'Website / Landing Page': 40, 'Email Marketing': 8, 'TikTok Ads': 15 };
+            let totalHours = channels.reduce((s, c) => s + (hoursPerChannel[c] || 10), 0);
+            if (totalHours === 0) totalHours = 20;
+            const months = timeline === 'urgent' ? 1 : timeline === 'normal' ? 2 : timeline === 'longterm' ? 4 : 6;
+            const est = [
+                { val: `${totalHours}h`, lbl: 'Giờ làm / tháng' },
+                { val: channels.length || '?', lbl: 'Kênh triển khai' },
+                { val: `${months} tháng`, lbl: 'Timeline đề xuất' },
+                { val: goals.length || '?', lbl: 'Mục tiêu' },
+            ];
+            document.getElementById('r_estimate').innerHTML = est.map(e =>
+                `<div class="est-item"><div class="est-val">${e.val}</div><div class="est-lbl">${e.lbl}</div></div>`
+            ).join('');
+
+            // ── PACKAGE RECOMMEND ──
+            let pkg = '', why = '';
+            const budgetMap = { entry: 'Gói Cơ Bản (5-10tr/tháng)', small: 'Gói Tiêu Chuẩn (10-20tr/tháng)', medium: 'Gói Nâng Cao (20-50tr/tháng)', large: 'Gói Premium (50-100tr/tháng)', enterprise: 'Gói Enterprise (custom)' };
+            pkg = budgetMap[budget] || 'Gói Tiêu Chuẩn';
+            const whyParts = [];
+            if (channels.includes('SEO')) whyParts.push('cần SEO dài hạn');
+            if (channels.includes('Facebook / Instagram Ads') || channels.includes('Google Ads')) whyParts.push('có ngân sách chạy ads');
+            if (channels.includes('Website / Landing Page')) whyParts.push('cần xây/nâng cấp website');
+            if (goals.includes('Xây dựng thương hiệu / nhận diện')) whyParts.push('focus brand building');
+            why = whyParts.length ? `Phù hợp vì: ${whyParts.join(', ')}.` : `Phù hợp với ngân sách và kênh ${name} đang muốn triển khai.`;
+            document.getElementById('r_package').innerHTML = `<div class="pkg-name">🏆 ${pkg}</div><div class="pkg-why">${why}</div>`;
+
+            // ── RED FLAGS ──
+            const flags = [];
+            if (!website) flags.push('Chưa có website – cần giải quyết trước khi chạy SEO/Ads');
+            if (channels.includes('SEO') && timeline === 'urgent') flags.push('Kỳ vọng SEO có kết quả trong < 1 tháng – cần align kỳ vọng với khách');
+            if (goals.length === 0) flags.push('Chưa xác định mục tiêu rõ ràng – cần thêm cuộc họp');
+            if (channels.length === 0) flags.push('Chưa chọn kênh triển khai');
+            if (budget === 'entry' && channels.length > 3) flags.push('Ngân sách thấp nhưng muốn nhiều kênh – cần tư vấn ưu tiên');
+            const flagsSection = document.getElementById('r_flags_section');
+            flagsSection.style.display = flags.length ? 'block' : 'none';
+            document.getElementById('r_flags').innerHTML = flags.map(f =>
+                `<div class="flag-item">⚠️ ${f}</div>`
+            ).join('');
+
+            // ── NOTES ──
+            const noteParts = [];
+            if (current) noteParts.push(`<strong>Tình trạng hiện tại:</strong> ${current}`);
+            if (competitor) noteParts.push(`<strong>Đối thủ cần nghiên cứu:</strong> ${competitor}`);
+            if (!noteParts.length) noteParts.push('Chưa có ghi chú thêm.');
+            document.getElementById('r_notes').innerHTML = noteParts.join('<br><br>');
+
+            // ── COPY TEXT ──
+            const copyText = `BRIEF SUMMARY – ${name.toUpperCase()}\n${'='.repeat(40)}\nNgày: ${date} | Phụ trách: ${owner || '—'}\nNgành: ${industry} | Quy mô: ${size || 'Chưa rõ'}\nWebsite: ${website || 'Chưa có'}\n\nMỤC TIÊU:\n${goals.map(g => '• ' + g).join('\n') || '• Chưa xác định'}\n\nKÊNH TRIỂN KHAI:\n${channels.map(c => '• ' + c).join('\n') || '• Chưa xác định'}\n\nESTIMATE: ~${totalHours}h/tháng | Timeline: ${months} tháng\nGỢI Ý GÓI: ${pkg}\n\n${current ? 'TÌNH TRẠNG: ' + current + '\n' : ''}${competitor ? 'ĐỐI THỦ: ' + competitor + '\n' : ''}${flags.length ? '\nRED FLAGS:\n' + flags.map(f => '⚠️ ' + f).join('\n') : ''}`;
+            document.getElementById('summaryText').textContent = copyText;
+
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('resultCard').classList.add('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function copyBrief() {
+            const txt = document.getElementById('summaryText').textContent;
+            navigator.clipboard.writeText(txt).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                btn.textContent = '✅ Đã copy!';
+                setTimeout(() => btn.textContent = '📋 Copy', 2000);
+            });
+        }
+
+        function resetBrief() {
+            document.getElementById('resultCard').classList.remove('show');
+            document.getElementById('formSection').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
